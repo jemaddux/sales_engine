@@ -93,16 +93,18 @@ class MerchantTest < MiniTest::Unit::TestCase
     Merchant.make_merchants
     Item.make_items
     Merchant.add_relationships
-    list_of_merchants = Merchant.list_of_merchants
-    list_of_merchants.each do |merchant|
-      assert_equal Item, merchant.items[0].class
-    end
+    merchant = Merchant.list_of_merchants[3]  
+    assert_equal Item, merchant.items[0].class
   end
 
   def test_merchants_returns_an_array_when_invoices_is_called_on_an_instance
     Merchant.make_merchants
     merchant = Merchant.list_of_merchants[23]
     assert_equal Array, merchant.invoices.class
+  end
+
+  def test_merchant_responds_to_find_by_id
+    assert Merchant.respond_to?(:find_by_id) 
   end
 
 end

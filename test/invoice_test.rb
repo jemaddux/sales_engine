@@ -65,4 +65,21 @@ class InvoiceTest < MiniTest::Unit::TestCase
   def test_that_invoice_has_a_random_method
     assert Invoice.respond_to?(:random)
   end
+
+  
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

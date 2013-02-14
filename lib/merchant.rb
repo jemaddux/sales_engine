@@ -6,6 +6,7 @@ require './lib/relationships_mod'
 class Merchant
   extend GetCSV
   extend Relationships
+  extend Searching
 
   attr_accessor :id, :name, :created_at, :updated_at, :items, :invoices
 
@@ -23,6 +24,14 @@ class Merchant
 
   def self.list_of_merchants
     return @list_of_merchants
+  end
+
+  def self.data
+    list_of_merchants    
+  end
+
+  def self.find_by_id(match)
+    find_by("id", match)
   end
 
   def initialize(merchant)
