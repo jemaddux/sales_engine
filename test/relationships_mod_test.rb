@@ -21,9 +21,12 @@ class RelationshipModuleTest < MiniTest::Unit::TestCase
 
   def test_merchant_can_find_items_by_merchant_id
     Merchant.make_merchants(true)#true for testing
+    Item.make_items(true)
     Merchant.add_relationships
     first_merchant = Merchant.list_of_merchants[0]
-    assert_equal first_merchant.items, "1234"
+    item_hash = {id: "1", name: "Item Qui Esse", description: "Nihil autem sit odio inventore deleniti. Est laudantium ratione distinctio laborum. Minus voluptatem nesciunt assumenda dicta voluptatum porro.", unit_price: "75107", merchant_id: "1", created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC"}
+    item = Item.new(item_hash)
+    assert_equal first_merchant.items[0].name, item.name
   end
 
 end
