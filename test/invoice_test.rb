@@ -25,6 +25,16 @@ class InvoiceTest < MiniTest::Unit::TestCase
     assert_equal "3", invoice.customer_id
   end
 
+  def test_that_we_can_get_a_merchant_id_from_an_instance
+    invoice = Invoice.new(:merchant_id => "25")
+    assert_equal "25", invoice.merchant_id
+  end
+
+  def test_that_we_can_get_a_status_from_an_instance
+    invoice = Invoice.new(:status => "shipped")
+    assert_equal "shipped", invoice.status
+  end
+
   def test_that_we_can_get_an_invoice_created_date_from_an_instance
     time = Time.now
     invoice = Invoice.new(:created_at => time)
