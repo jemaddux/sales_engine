@@ -45,8 +45,6 @@ class CustomerTest < MiniTest::Unit::TestCase
 		Customer.make_customers(true)#true for testing
     @list_of_customers = Customer.list_of_customers 
 		assert_equal Array, @list_of_customers.class
-    #assert_equal "Joey", @list_of_customers[0][:first_name]
-		#1,Joey,Ondricka,2012-03-27 14:54:09 UTC,2012-03-27 14:54:09 UTC
 	end
 
   def test_can_create_a_customer_instance_from_sample_customers_csv
