@@ -4,11 +4,19 @@ require './lib/invoice'
 
 class SearchingTest < MiniTest::Unit::TestCase
 
-  def test_it_returns_an_object
+  def test_rand_returns_an_object
     Invoice.make_invoices
     random_instance = Invoice.random
     assert_kind_of Invoice, random_instance
   end
+
+  def test_rand_returns_different_objects_each_time
+    Invoice.make_invoices
+    random_instance_1 = Invoice.random
+    random_instance_2 = Invoice.random
+    assert_operator random_instance_1, :!= , random_instance_2
+  end
+  
   # def test_customer_csv_file_exists
   #   customer_file = "./test/sample/customers.csv"
   #   assert File.exists?(customer_file), true
