@@ -5,7 +5,7 @@ class Item
   extend GetCSV
 
   attr_accessor :name, :id, :created_at, :updated_at, :description, 
-    :unit_price, :merchant_id
+    :unit_price, :merchant_id, :invoice_items, :merchant
 
   def self.make_items(testing=false)
     item_file = "./data/items.csv"
@@ -32,5 +32,7 @@ class Item
     @description = input[:description]
     @merchant_id = input[:merchant_id]
     @unit_price = input[:unit_price]
+    @invoice_items = []
+    @merchant = Merchant.new({})
   end
 end

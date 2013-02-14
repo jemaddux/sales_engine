@@ -7,6 +7,7 @@ class SalesEngine
 
   def self.startup
     Merchant.make_merchants
+    Merchant.add_relationships
     Invoice.make_invoices
     Item.make_items
     Customer.make_customers

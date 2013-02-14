@@ -68,4 +68,33 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
     invoice_item_list = InvoiceItem.make_invoice_items(true)
     assert_equal Array, invoice_item_list.class
   end
+
+  def test_that_calling_item_on_an_invoiceitem_instance_returns_an_instance_of_item
+    InvoiceItem.make_invoice_items
+    invoice_item = InvoiceItem.list_of_invoice_items[3]
+    assert_equal Item, invoice_item.item.class
+  end
+
+  def test_that_calling_invoice_on_an_invoiceItem_instance_returns_an_instance_of_invoice
+    InvoiceItem.make_invoice_items
+    invoice_item = InvoiceItem.list_of_invoice_items[23]
+    assert_equal Invoice, invoice_item.invoice.class
+  end
+
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

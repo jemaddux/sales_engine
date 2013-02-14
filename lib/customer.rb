@@ -3,7 +3,7 @@ require './lib/get_csv_mod'
 class Customer
 	extend GetCSV
 
-  attr_accessor :first_name, :last_name, :id, :created_at, :updated_at
+  attr_accessor :first_name, :last_name, :id, :created_at, :updated_at, :invoices
 
   def self.make_customers(testing=false)
     customer_file = "./data/customers.csv"
@@ -28,5 +28,6 @@ class Customer
   	@last_name = input[:last_name]
   	@created_at = input[:created_at]
   	@updated_at = input[:updated_at]
+    @invoices = []
   end
 end
