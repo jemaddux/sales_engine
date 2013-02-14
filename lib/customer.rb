@@ -22,6 +22,72 @@ class Customer
     return @list_of_customers
   end
 
+  def self.data
+    list_of_customers
+  end
+
+  # Find By
+
+  def self.find_by_first_name(match)
+    find_by("first_name", match)
+  end
+
+  def self.find_by_last_name(match)
+    find_by("last_name", match)
+  end
+
+  def self.find_by_id(match)
+    find_by("id", match)
+  end
+
+  def self.find_by_created_at(match)
+    find_by("created_at", match)
+  end
+
+  def self.find_by_created_at(match)
+    find_by("created_at", match)
+  end
+
+  def self.find_by_updated_at(match)
+    find_by("updated_at", match)
+  end
+
+  def self.find_by_invoices(match)
+    find_by("invoices", match)
+  end
+
+  # Find All By
+
+  def self.find_all_by_first_name(match)
+    find_all_by("first_name", match)
+  end
+
+  def self.find_all_by_last_name(match)
+    find_all_by("last_name", match)
+  end
+
+  def self.find_all_by_id(match)
+    find_all_by("id", match)
+  end
+
+  def self.find_all_by_created_at(match)
+    find_all_by("created_at", match)
+  end
+
+  def self.find_all_by_created_at(match)
+    find_all_by("created_at", match)
+  end
+
+  def self.find_all_by_updated_at(match)
+    find_all_by("updated_at", match)
+  end
+
+  def self.find_all_by_invoices(match)
+    find_all_by("invoices", match)
+  end
+
+  # Initialize
+
   def initialize(input)#takes in a hash
   	@id = input[:id]
   	@first_name = input[:first_name]

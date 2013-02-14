@@ -1,8 +1,10 @@
 require './lib/get_csv_mod'
 require './lib/relationships_mod'
+require './lib/searching_mod'
 
 class InvoiceItem
   extend GetCSV
+  extend Searching
   extend Relationships
 
   attr_accessor :id, :item_id, :invoice_id, :quantity, :unit_price, 
@@ -24,6 +26,88 @@ class InvoiceItem
   def self.list_of_invoice_items
     return @list_of_invoice_items
   end
+
+  def self.data
+    list_of_invoice_items
+  end
+
+  # Find By
+
+  def self.find_by_id(match)
+    find_by("id", match)
+  end
+
+  def self.find_by_item_id(match)
+    find_by("item_id", match)
+  end
+
+  def self.find_by_invoice_id(match)
+    find_by("invoice_id", match)
+  end
+
+  def self.find_by_quantity(match)
+    find_by("quantity", match)
+  end
+
+  def self.find_by_unit_price(match)
+    find_by("unit_price", match)
+  end
+
+  def self.find_by_created_at(match)
+    find_by("created_at", match)
+  end
+
+  def self.find_by_updated_at(match)
+    find_by("updated_at", match)
+  end
+
+  def self.find_by_item(match)
+    find_by("item", match)
+  end
+
+  def self.find_by_invoice(match)
+    find_by("invoice", match)
+  end
+
+  # Find All By
+
+  def self.find_all_by_id(match)
+    find_all_by("id", match)
+  end
+
+  def self.find_all_by_item_id(match)
+    find_all_by("item_id", match)
+  end
+
+  def self.find_all_by_invoice_id(match)
+    find_all_by("invoice_id", match)
+  end
+
+  def self.find_all_by_quantity(match)
+    find_all_by("quantity", match)
+  end
+
+  def self.find_all_by_unit_price(match)
+    find_all_by("unit_price", match)
+  end
+
+  def self.find_all_by_created_at(match)
+    find_all_by("created_at", match)
+  end
+
+  def self.find_all_by_updated_at(match)
+    find_all_by("updated_at", match)
+  end
+
+  def self.find_all_by_item(match)
+    find_all_by("item", match)
+  end
+
+  def self.find_all_by_invoice(match)
+    find_all_by("invoice", match)
+  end
+
+  # Initialize
 
   def initialize(input)#takes in a hash
     @id = input[:id]
