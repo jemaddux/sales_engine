@@ -28,6 +28,18 @@ class Invoice
     rand(@list_of_invoices)
   end
 
+  def self.find_by_id(match)
+    find_by(@list_of_invoices, "id", match)
+  end
+
+  def self.find_by_status(match)
+    find_by(@list_of_invoices, "status", match)
+  end
+
+  def self.find_all_by_id(match)
+    find_all_by(@list_of_invoices, "id", match)
+  end
+
   def initialize(input)#takes in a hash
     @id = input[:id]
     @customer_id = input[:customer_id]

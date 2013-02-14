@@ -4,12 +4,13 @@ module Searching
     list_of_objects.sample
   end
 
-  def find_by
-    # le find by x stuff
+  def find_by(list_of_objects, attribute, match)
+    answer = list_of_objects.select{|instance| instance.send(attribute).match(/^\s?#{(match)}\s?$/i)}
+    answer[0]
   end
 
-  def find_all_by
-    # le find all by x stuff
+  def find_all_by(list_of_objects, attribute, match)
+    answer = list_of_objects.select{|instance| instance.send(attribute).match(/^\s?#{(match)}\s?$/i)}
   end
 
 end
