@@ -14,12 +14,14 @@ class Merchant
     end
 
     data_dump = get_csv(merchant_file)
-
-    @merchants_list = []
+    @list_of_merchants = []
     data_dump.each do |merchant|
-      new_merchant = Merchant.new(merchant)
-      @merchants_list << new_merchant
+      @list_of_merchants.push(Merchant.new(merchant))
     end
+  end
+
+  def self.list_of_merchants
+    return @list_of_merchants
   end
 
   def initialize(merchant)
