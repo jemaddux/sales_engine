@@ -1,7 +1,9 @@
 require './lib/get_csv_mod'
+require './lib/searching_mod'
 
 class Invoice
 	extend GetCSV
+  extend Searching
 
   attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at
 
@@ -20,6 +22,10 @@ class Invoice
 
   def self.list_of_invoices
     return @list_of_invoices
+  end
+
+  def self.random
+    rand(@list_of_invoices)
   end
 
   def initialize(input)#takes in a hash
