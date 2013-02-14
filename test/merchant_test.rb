@@ -1,4 +1,5 @@
-#get simplecov
+require 'simplecov'
+SimpleCov.start
 
 require 'minitest/autorun'
 require "./lib/merchant"
