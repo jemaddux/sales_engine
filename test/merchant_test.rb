@@ -54,10 +54,6 @@ class MerchantTest < MiniTest::Unit::TestCase
     assert_equal Array, merchant_list.class
   end
 
-  def test_that_the_first_array_returns
-
-  end
-
   #def test_random_merchant_method_returns_a_random_instance
 
   #def test_find_by_x_match_returns_a_single_instance
