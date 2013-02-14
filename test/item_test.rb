@@ -70,14 +70,3 @@ class ItemTest < MiniTest::Unit::TestCase
     assert_equal 1, item.merchant_id
   end
 end
-
-
-
-
-
-
-
-
-
-
-
