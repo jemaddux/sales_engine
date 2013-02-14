@@ -4,7 +4,7 @@ class Transaction
 extend GetCSV
 
   attr_accessor :id, :created_at, :updated_at, :invoice_id, :credit_card_number,
-    :credit_card_expiration_date, :result
+    :credit_card_expiration_date, :result, :invoice
 
   def self.make_transactions(testing=false)
     transaction_file = "./data/transactions.csv"
@@ -31,6 +31,7 @@ extend GetCSV
     @credit_card_number = input[:credit_card_number]
     @credit_card_expiration_date = input[:credit_card_expiration_date]
     @result = input[:result]
+    @invoice = Invoice.new({})
   end
 end
 

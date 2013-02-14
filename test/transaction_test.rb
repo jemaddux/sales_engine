@@ -58,4 +58,24 @@ class TransactionTest < MiniTest::Unit::TestCase
     @list_of_transactions = Transaction.list_of_transactions
     assert_equal "1", @list_of_transactions[0].id
   end
+
+  def test_that_calling_invoice_on_an_instance_of_transaction_returns_an_instance_of_invoice
+    Transaction.make_transactions
+    transaction = Transaction.list_of_transactions[2]
+    assert_equal Invoice, transaction.invoice.class    
+  end
+
 end
+
+
+
+
+
+
+
+
+
+
+
+
+

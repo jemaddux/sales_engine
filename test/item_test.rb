@@ -69,4 +69,29 @@ class ItemTest < MiniTest::Unit::TestCase
     item = Item.new({merchant_id: 1})
     assert_equal 1, item.merchant_id
   end
+
+  def test_that_calling_invoice_items_on_an_item_instance_returns_an_array
+    Item.make_items
+    item = Item.list_of_items[23]
+    assert_equal Array, item.invoice_items.class
+  end
+
+  def test_that_calling_merchant_on_an_item_instance_returns_an_instance_of_merchant
+    Item.make_items
+    item = Item.list_of_items[2]
+    assert_equal Merchant, item.merchant.class
+  end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+

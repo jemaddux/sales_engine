@@ -58,6 +58,12 @@ class CustomerTest < MiniTest::Unit::TestCase
     @list_of_customers = Customer.list_of_customers
     assert_equal "Joey", @list_of_customers[0].first_name
   end
+
+  def test_that_calling_invoices_on_an_instance_of_customer_returns_an_array
+    Customer.make_customers(true)#true for using tesing data, false by default
+    customer = Customer.list_of_customers[2]
+    assert_equal Array, customer.invoices.class
+  end
 end
 
 #id,first_name,last_name,created_at,updated_at
