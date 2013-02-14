@@ -3,17 +3,30 @@ require './lib/get_csv_mod'
 class Customer
 	extend GetCSV
 
+  attr_accessor :first_name, :last_name, :id, :created_at, :updated_at
 
-  attr_accessor :name, :id
-
-  def self.make_customers
-  	#runs through each customers from the get_csv and sends the to initialize
-  	#adds each customer to a @list_of_customers which is an array
-  	#this will run from sales_engine.rb
+  def self.make_customers(testing=false)
+    customer_file = "./data/customers.csv"
+    if testing
+  	  customer_file = "./test/sample/customers.csv"
+    end
+    
+    csv_array = get_csv(customer_file)  
+    @list_of_customers = []
+    csv_array.each do |cust_hash|
+      @list_of_customers.push(Customer.new(cust_hash))
+    end
   end
 
-  def initialize()#takes in a hash
+  def self.list_of_customers
+    return @list_of_customers
+  end
+
+  def initialize(input)#takes in a hash
   	@id = input[:id]
-  	#returns a customer instance
+  	@first_name = input[:first_name]
+  	@last_name = input[:last_name]
+  	@created_at = input[:created_at]
+  	@updated_at = input[:updated_at]
   end
 end
