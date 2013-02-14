@@ -1,7 +1,9 @@
 require './lib/get_csv_mod'
+require './lib/searching_mod'
 
 class Transaction
-extend GetCSV
+  extend GetCSV
+  extend Searching
 
   attr_accessor :id, :created_at, :updated_at, :invoice_id, :credit_card_number,
     :credit_card_expiration_date, :result, :invoice
@@ -23,6 +25,80 @@ extend GetCSV
     return @list_of_transactions
   end
 
+  def self.data
+    list_of_transactions
+  end
+
+  # Find By
+
+  def self.find_by_id(match)
+    find_by("id", match)
+  end
+
+  def self.find_by_created_at(match)
+    find_by("created_at", match)
+  end
+
+  def self.find_by_updated_at(match)
+    find_by("updated_at", match)
+  end
+
+  def self.find_by_invoice_id(match)
+    find_by("invoice_id", match)
+  end
+
+  def self.find_by_credit_card_number(match)
+    find_by("credit_card_number", match)
+  end
+
+  def self.find_by_credit_card_expiration_date(match)
+    find_by("credit_card_expiration_date", match)
+  end
+
+  def self.find_by_result(match)
+    find_by("result", match)
+  end
+
+  def self.find_by_invoice(match)
+    find_by("invoice", match)
+  end
+
+  # Find All By
+
+  def self.find_all_by_id(match)
+    find_all_by("id", match)
+  end
+
+  def self.find_all_by_created_at(match)
+    find_all_by("created_at", match)
+  end
+
+  def self.find_all_by_updated_at(match)
+    find_all_by("updated_at", match)
+  end
+
+  def self.find_all_by_invoice_id(match)
+    find_all_by("invoice_id", match)
+  end
+
+  def self.find_all_by_credit_card_number(match)
+    find_all_by("credit_card_number", match)
+  end
+
+  def self.find_all_by_credit_card_expiration_date(match)
+    find_all_by("credit_card_expiration_date", match)
+  end
+
+  def self.find_all_by_result(match)
+    find_all_by("result", match)
+  end
+
+  def self.find_all_by_invoice(match)
+    find_all_by("invoice", match)
+  end
+
+  # Initialize
+
   def initialize(input)#takes in a hash
     @id = input[:id]
     @created_at = input[:created_at]
@@ -34,5 +110,3 @@ extend GetCSV
     @invoice = Invoice.new({})
   end
 end
-
-
