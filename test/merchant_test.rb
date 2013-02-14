@@ -50,7 +50,7 @@ class MerchantTest < MiniTest::Unit::TestCase
   end
 
   def test_that_calling_new_merchants_returns_an_array
-    merchant_list = Merchant.new_merchants("./test/sample/merchants.csv")
+    merchant_list = Merchant.make_merchants(true)
     assert_equal Array, merchant_list.class
   end
 

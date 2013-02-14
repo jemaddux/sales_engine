@@ -6,8 +6,14 @@ class Merchant
 
   attr_accessor :id, :name, :created_at, :updated_at
 
-  def self.new_merchants(data_file)
-    data_dump = get_csv(data_file)
+  def self.make_merchants(testing = false)
+
+    merchant_file = "./data/merchants.csv"
+    if testing
+      merchant_file = "./test/sample/merchants.csv"
+    end
+
+    data_dump = get_csv(merchant_file)
 
     @merchants_list = []
     data_dump.each do |merchant|
