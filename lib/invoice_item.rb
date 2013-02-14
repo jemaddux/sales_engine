@@ -1,9 +1,12 @@
 require './lib/get_csv_mod'
+require './lib/relationships_mod'
 
 class InvoiceItem
   extend GetCSV
+  extend Relationships
 
-  attr_accessor :id, :item_id, :invoice_id, :quantity, :unit_price, :created_at, :updated_at
+  attr_accessor :id, :item_id, :invoice_id, :quantity, :unit_price, 
+  :created_at, :updated_at, :item
 
   def self.make_invoice_items(testing=false)
     invoice_item_file = "./data/invoice_items.csv"
@@ -30,5 +33,15 @@ class InvoiceItem
     @unit_price = input[:unit_price]
     @created_at = input[:created_at]
     @updated_at = input[:updated_at]
+    @item = ""
+  end
+
+  def self.add_relationships
+    list_of_items = Item.list_of_items
+    @list_of_invoice_items.each do |invoice_item|
+      list_of_items.each do |item|
+        invoice_item.item = Item.find_by_id(invoice_item.item_id)
+      end
+    end
   end
 end

@@ -7,7 +7,7 @@ class Merchant
   extend GetCSV
   extend Relationships
 
-  attr_accessor :id, :name, :created_at, :updated_at, :items
+  attr_accessor :id, :name, :created_at, :updated_at, :items, :invoices
 
   def self.make_merchants(testing = false)
     merchant_file = "./data/merchants.csv"
@@ -31,6 +31,7 @@ class Merchant
     @created_at = merchant[:created_at]
     @updated_at = merchant[:updated_at]
     @items = []
+    @invoices = []
   end
 
   def self.add_relationships
