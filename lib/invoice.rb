@@ -28,17 +28,59 @@ class Invoice
     list_of_invoices
   end
 
+  # Find By
+
   def self.find_by_id(match)
     find_by("id", match)
+  end
+
+  def self.find_by_customer_id(match)
+    find_by("customer_id", match)
+  end
+
+  def self.find_by_merchant_id(match)
+    find_by("merchant_id", match)
   end
 
   def self.find_by_status(match)
     find_by("status", match)
   end
 
+  def self.find_by_created_at(match)
+    find_by("created_at", match)
+  end
+
+  def self.find_by_updated_at(match)
+    find_by("updated_at", match)
+  end
+
+  # Find All By
+
   def self.find_all_by_id(match)
     find_all_by("id", match)
   end
+
+  def self.find_all_by_customer_id(match)
+    find_all_by("customer_id", match)
+  end
+
+  def self.find_all_by_merchant_id(match)
+    find_all_by("merchant_id", match)
+  end
+
+  def self.find_all_by_status(match)
+    find_all_by("status", match)
+  end
+
+  def self.find_all_by_created_at(match)
+    find_all_by("created_at", match)
+  end
+
+  def self.find_all_by_updated_at(match)
+    find_all_by("updated_at", match)
+  end
+
+  # Initialize
 
   def initialize(input)#takes in a hash
     @id = input[:id]
