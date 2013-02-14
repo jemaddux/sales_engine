@@ -24,20 +24,20 @@ class Invoice
     return @list_of_invoices
   end
 
-  def self.random
-    rand(@list_of_invoices)
+  def self.data
+    list_of_invoices
   end
 
   def self.find_by_id(match)
-    find_by(@list_of_invoices, "id", match)
+    find_by("id", match)
   end
 
   def self.find_by_status(match)
-    find_by(@list_of_invoices, "status", match)
+    find_by("status", match)
   end
 
   def self.find_all_by_id(match)
-    find_all_by(@list_of_invoices, "id", match)
+    find_all_by("id", match)
   end
 
   def initialize(input)#takes in a hash

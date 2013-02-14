@@ -1,16 +1,15 @@
 module Searching
 
-  def rand(list_of_objects)
-    list_of_objects.sample
+  def random
+    data.sample
   end
 
-  def find_by(list_of_objects, attribute, match)
-    answer = list_of_objects.select{|instance| instance.send(attribute).match(/^\s?#{(match)}\s?$/i)}
-    answer[0]
+  def find_by(attribute, match)
+    data.detect{|instance| instance.send(attribute).to_s.downcase == match.to_s.downcase}
   end
 
-  def find_all_by(list_of_objects, attribute, match)
-    answer = list_of_objects.select{|instance| instance.send(attribute).match(/^\s?#{(match)}\s?$/i)}
+  def find_all_by(attribute, match)
+    data.select{|instance| instance.send(attribute) == match}
   end
 
 end

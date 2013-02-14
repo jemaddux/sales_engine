@@ -13,8 +13,6 @@ class InvoiceTest < MiniTest::Unit::TestCase
 		assert_operator file_contents.size, :>= , 5
 	end
 
-# copy/paste starts here
-
   def test_that_we_can_get_an_invoice_id_from_an_instance
     invoice = Invoice.new(:id => "1")
     assert_equal "1", invoice.id
@@ -62,5 +60,9 @@ class InvoiceTest < MiniTest::Unit::TestCase
   def test_that_calling_new_invoices_returns_an_array
     invoice_list = Invoice.make_invoices(true)
     assert_equal Array, invoice_list.class
+  end
+
+  def test_that_invoice_has_a_random_method
+    assert Invoice.respond_to?(:random)
   end
 end
