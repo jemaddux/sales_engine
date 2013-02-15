@@ -83,17 +83,42 @@ class ItemTest < MiniTest::Unit::TestCase
     item = Item.list_of_items[2]
     assert_equal Merchant, item.merchant.class
   end
+
+  # :name, :id, :created_at, :updated_at, :description, :unit_price, :merchant_id, :invoice_items, :merchant
+
+  def test_item_responds_to_find_by_name
+    assert Item.respond_to?(:find_by_name) 
+  end
+
+    def test_item_responds_to_find_by_id
+    assert Item.respond_to?(:find_by_id) 
+  end
+
+  def test_item_responds_to_find_by_created_at
+    assert Item.respond_to?(:find_by_created_at) 
+  end
+
+  def test_item_responds_to_find_by_updated_at
+    assert Item.respond_to?(:find_by_updated_at) 
+  end
+
+  def test_item_responds_to_find_by_description
+    assert Item.respond_to?(:find_by_description) 
+  end
+
+  def test_item_responds_to_find_by_unit_price
+    assert Item.respond_to?(:find_by_unit_price) 
+  end
+
+  def test_item_responds_to_find_by_merchant_id
+    assert Item.respond_to?(:find_by_merchant_id) 
+  end
+
+  def test_item_responds_to_find_by_invoice_items
+    assert Item.respond_to?(:find_by_invoice_items) 
+  end
+
+  def test_item_responds_to_find_by_merchant
+    assert Item.respond_to?(:find_by_merchant) 
+  end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -83,20 +83,39 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
     assert_equal Invoice, invoice_item.invoice.class
   end
 
+  def test_invoice_items_responds_to_find_by_id
+    assert InvoiceItem.respond_to?(:find_by_id) 
+  end
+
+  def test_invoice_items_responds_to_find_by_item_id
+    assert InvoiceItem.respond_to?(:find_by_item_id) 
+  end
+
+  def test_invoice_items_responds_to_find_by_invoice_id
+    assert InvoiceItem.respond_to?(:find_by_invoice_id) 
+  end
+
+  def test_invoice_items_responds_to_find_by_quantity
+    assert InvoiceItem.respond_to?(:find_by_quantity) 
+  end
+
+  def test_invoice_items_responds_to_find_by_unit_price
+    assert InvoiceItem.respond_to?(:find_by_unit_price) 
+  end
+
+  def test_invoice_items_responds_to_find_by_created_at
+    assert InvoiceItem.respond_to?(:find_by_created_at) 
+  end
+
+  def test_invoice_items_responds_to_find_by_updated_at
+    assert InvoiceItem.respond_to?(:find_by_updated_at) 
+  end
+
+  def test_invoice_items_responds_to_find_by_item
+    assert InvoiceItem.respond_to?(:find_by_item) 
+  end
+
+  def test_invoice_items_responds_to_find_by_invoice
+    assert InvoiceItem.respond_to?(:find_by_invoice) 
+  end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

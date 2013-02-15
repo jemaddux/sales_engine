@@ -68,20 +68,27 @@ class InvoiceTest < MiniTest::Unit::TestCase
     assert Invoice.respond_to?(:random)
   end
 
-  
+  def test_invoice_responds_to_find_by_id
+    assert Invoice.respond_to?(:find_by_id) 
+  end
+
+  def test_invoice_responds_to_find_by_customer_id
+    assert Invoice.respond_to?(:find_by_customer_id) 
+  end
+
+  def test_invoice_responds_to_find_by_merchant_id
+    assert Invoice.respond_to?(:find_by_merchant_id) 
+  end
+
+  def test_invoice_responds_to_find_by_status
+    assert Invoice.respond_to?(:find_by_status) 
+  end
+
+  def test_invoice_responds_to_find_by_created_at
+    assert Invoice.respond_to?(:find_by_created_at) 
+  end
+
+  def test_invoice_responds_to_find_by_updated_at
+    assert Invoice.respond_to?(:find_by_updated_at) 
+  end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
