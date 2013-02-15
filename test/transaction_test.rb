@@ -67,6 +67,71 @@ class TransactionTest < MiniTest::Unit::TestCase
     assert_equal Invoice, transaction.invoice.class    
   end
 
+##############Respond to Tests###################
+
+  def test_Transaction_responds_to_find_by_id
+    assert Transaction.respond_to?(:find_by_id) 
+  end
+
+  def test_Transaction_responds_to_find_by_created_at
+    assert Transaction.respond_to?(:find_by_created_at)
+  end
+
+  def test_Transaction_responds_to_find_by_updated_at
+    assert Transaction.respond_to?(:find_by_updated_at)
+  end
+
+  def test_Transaction_responds_to_find_by_invoice_id
+    assert Transaction.respond_to?(:find_by_invoice_id)
+  end
+
+  def test_Transaction_responds_to_find_by_invoice
+    assert Transaction.respond_to?(:find_by_invoice)
+  end
+
+  def test_Transaction_responds_to_find_by_credit_card_number
+    assert Transaction.respond_to?(:find_by_credit_card_number)
+  end
+
+  def test_Transaction_responds_to_find_by_credit_card_expiration_date
+    assert Transaction.respond_to?(:find_by_credit_card_expiration_date)
+  end
+
+  def test_Transaction_responds_to_find_by_result
+    assert Transaction.respond_to?(:find_by_result)
+  end
+
+  def test_Transaction_responds_to_find_all_by_id
+    assert Transaction.respond_to?(:find_all_by_id)
+  end
+
+  def test_Transaction_responds_to_find_all_by_created_at
+    assert Transaction.respond_to?(:find_all_by_created_at)
+  end
+
+  def test_Transaction_responds_to_find_all_by_updated_at
+    assert Transaction.respond_to?(:find_all_by_updated_at)
+  end
+
+  def test_Transaction_responds_to_find_all_by_invoice_id
+    assert Transaction.respond_to?(:find_all_by_invoice_id)
+  end
+
+  def test_Transaction_responds_to_find_all_by_invoice
+    assert Transaction.respond_to?(:find_all_by_invoice)
+  end
+
+  def test_Transaction_responds_to_find_all_by_credit_card_number
+    assert Transaction.respond_to?(:find_all_by_credit_card_number)
+  end
+
+  def test_Transaction_responds_to_find_all_by_credit_card_expiration_date
+    assert Transaction.respond_to?(:find_all_by_credit_card_expiration_date)
+  end
+
+  def test_Transaction_responds_to_find_all_by_result
+    assert Transaction.respond_to?(:find_all_by_result)
+  end
 end
 
 

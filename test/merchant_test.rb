@@ -108,7 +108,63 @@ class MerchantTest < MiniTest::Unit::TestCase
     assert Merchant.respond_to?(:find_by_id) 
   end
 
+  def test_merchant_responds_to_find_by_name
+    assert Merchant.respond_to?(:find_by_name)
+  end
+
+  def test_merchant_responds_to_find_by_created_at
+    assert Merchant.respond_to?(:find_by_created_at)
+  end
+
+  def test_merchant_responds_to_find_by_updated_at
+    assert Merchant.respond_to?(:find_by_updated_at)
+  end
+
+  def test_merchant_responds_to_find_by_items
+    assert Merchant.respond_to?(:find_by_items)
+  end
+
+  def test_merchant_responds_to_find_by_invoices
+    assert Merchant.respond_to?(:find_by_invoices)
+  end
+
+  def test_merchant_responds_to_find_all_by_id
+    assert Merchant.respond_to?(:find_all_by_id)
+  end
+
+  def test_merchant_responds_to_find_all_by_name
+    assert Merchant.respond_to?(:find_all_by_name)
+  end
+
+  def test_merchant_responds_to_find_all_by_created_at
+    assert Merchant.respond_to?(:find_all_by_created_at)
+  end
+
+  def test_merchant_responds_to_find_all_by_updated_at
+    assert Merchant.respond_to?(:find_all_by_updated_at)
+  end
+
+  def test_merchant_responds_to_find_all_by_items
+    assert Merchant.respond_to?(:find_all_by_items)
+  end
+
+  def test_merchant_responds_to_find_all_by_invoices
+    assert Merchant.respond_to?(:find_all_by_invoices)
+  end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -66,9 +66,61 @@ class CustomerTest < MiniTest::Unit::TestCase
     customer = Customer.list_of_customers[2]
     assert_equal Array, customer.invoices.class
   end
+
+########################
+
+  def test_Customer_responds_to_find_by_id
+    assert Customer.respond_to?(:find_by_id) 
+  end
+
+  def test_Customer_responds_to_find_by_first_name
+    assert Customer.respond_to?(:find_by_first_name)
+  end
+
+  def test_Customer_responds_to_find_by_last_name
+    assert Customer.respond_to?(:find_by_last_name)
+  end
+
+  def test_Customer_responds_to_find_by_created_at
+    assert Customer.respond_to?(:find_by_created_at)
+  end
+
+  def test_Customer_responds_to_find_by_updated_at
+    assert Customer.respond_to?(:find_by_updated_at)
+  end
+
+  def test_Customer_responds_to_find_by_invoices
+    assert Customer.respond_to?(:find_by_invoices)
+  end
+
+  def test_Customer_responds_to_find_all_by_id
+    assert Customer.respond_to?(:find_all_by_id)
+  end
+
+  def test_Customer_responds_to_find_all_by_first_name
+    assert Customer.respond_to?(:find_all_by_first_name)
+  end
+
+  def test_Customer_responds_to_find_all_by_created_at
+    assert Customer.respond_to?(:find_all_by_created_at)
+  end
+
+  def test_Customer_responds_to_find_all_by_updated_at
+    assert Customer.respond_to?(:find_all_by_updated_at)
+  end
+
+  def test_Customer_responds_to_find_all_by_last_name
+    assert Customer.respond_to?(:find_all_by_last_name)
+  end
+
+  def test_Customer_responds_to_find_all_by_invoices
+    assert Customer.respond_to?(:find_all_by_invoices)
+  end
+
+
 end
 
-#id,first_name,last_name,created_at,updated_at
+#:first_name, :last_name, :id, :created_at, :updated_at, :invoices
 
 
 
