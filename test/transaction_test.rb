@@ -185,4 +185,22 @@ class TransactionTest < MiniTest::Unit::TestCase
     invoice = transaction.invoice
     assert_equal "7", invoice.id
   end
+
+  def test_successful_transactions_returns_an_array
+    Transaction.make_transactions
+    assert_kind_of Array, Transaction.successful_transactions
+  end
+
+  def test_successful_transactions_returns_only_successful_transactions
+    Transaction.make_transactions(true)
+    successful_transactions = Transaction.successful_transactions
+    successful_transactions.each do |transaction|
+      assert_equal "success", transaction.result
+    end
+  end
+
+  def test_successful_transaction_invoice_ids_returns_an_array
+    Transaction.make_transactions(true)
+    assert_kind_of Array, Transaction.successful_transaction_invoice_ids
+  end
 end
