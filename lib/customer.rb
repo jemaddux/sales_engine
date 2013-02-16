@@ -46,10 +46,6 @@ class Customer
     find_by("created_at", match)
   end
 
-  def self.find_by_created_at(match)
-    find_by("created_at", match)
-  end
-
   def self.find_by_updated_at(match)
     find_by("updated_at", match)
   end

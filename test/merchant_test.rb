@@ -151,6 +151,34 @@ class MerchantTest < MiniTest::Unit::TestCase
   def test_merchant_responds_to_find_all_by_invoices
     assert Merchant.respond_to?(:find_all_by_invoices)
   end
+
+################################################
+
+  def test_merchant_find_by_name_returns_the_correct_name
+    Merchant.make_merchants(true)#true for testing, false by default
+    merchant = Merchant.find_by_name("Hand-Spencer")
+    assert_equal "Hand-Spencer", merchant.name
+  end  
+
+  def test_merchant_find_by_id_returns_the_correct_id
+    Merchant.make_merchants(true)#true for testing, false by default
+    merchant = Merchant.find_by_id("3")
+    assert_equal "3", merchant.id
+  end  
+
+  def test_merchant_find_by_created_at_returns_the_correct_created_at
+    Merchant.make_merchants(true)#true for testing, false by default
+    merchant = Merchant.find_by_created_at("2012-03-27 14:53:59 UTC")
+    assert_equal "2012-03-27 14:53:59 UTC", merchant.created_at
+  end
+
+  def test_merchant_find_by_updated_at_returns_the_correct_time
+    Merchant.make_merchants(true)#true for testing, false by default
+    merchant = Merchant.find_by_updated_at("2012-03-27 14:53:59 UTC")
+    assert_equal "2012-03-27 14:53:59 UTC", merchant.updated_at
+  end  
+
+
 end
 
 

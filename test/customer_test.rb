@@ -122,15 +122,73 @@ class CustomerTest < MiniTest::Unit::TestCase
     assert_equal list, Customer.data
   end
 
-  def test_customer_find_by_first_name_returns_a_string
+#######################################
+
+  def test_customer_find_by_first_name_returns_the_correct_name
     Customer.make_customers(true)#true for testing, false by default
     customer = Customer.find_by_first_name("Joey")
     assert_equal "Joey", customer.first_name
   end
 
+  def test_customer_find_by_last_name_returns_the_correct_name
+    Customer.make_customers(true)#true for testing, false by default
+    customer = Customer.find_by_last_name("Toy")
+    assert_equal "Toy", customer.last_name
+  end  
+
+  def test_customer_find_by_id_returns_the_correct_id
+    Customer.make_customers(true)#true for testing, false by default
+    customer = Customer.find_by_id("3")
+    assert_equal "3", customer.id
+  end  
+
+  def test_customer_find_by_created_at_returns_the_correct_created_at
+    Customer.make_customers(true)#true for testing, false by default
+    customer = Customer.find_by_created_at("2012-03-27 14:54:09 UTC")
+    assert_equal "2012-03-27 14:54:09 UTC", customer.created_at
+  end
+
+  def test_customer_find_by_updated_at_returns_the_correct_time
+    Customer.make_customers(true)#true for testing, false by default
+    customer = Customer.find_by_updated_at("2012-03-27 14:54:09 UTC")
+    assert_equal "2012-03-27 14:54:09 UTC", customer.updated_at
+  end  
+
+############################################
+
+  def test_customer_find_all_by_first_name_returns_the_amount
+    Customer.make_customers(true)#true for testing, false by default
+    customers = Customer.find_all_by_first_name("Mariah")
+    assert_equal 5, customers.count
+  end
+
+  def test_customer_find_all_by_last_name_returns_the_count
+    Customer.make_customers(true)#true for testing, false by default
+    customers = Customer.find_all_by_last_name("Toy")
+    assert_equal 5, customers.count
+  end  
+
+  def test_customer_find_all_by_id_returns_the_count
+    Customer.make_customers(true)#true for testing, false by default
+    customers = Customer.find_all_by_id("3")
+    assert_equal 5, customers.count
+  end  
+
+  def test_customer_find_all_by_created_at_returns_the_correct_amount
+    Customer.make_customers(true)#true for testing, false by default
+    customers = Customer.find_all_by_created_at("2012-03-27 14:54:10 UTC")
+    assert_equal 10, customers.count
+  end
+
+  def test_customer_find_all_by_updated_at_returns_the_correct_time
+    Customer.make_customers(true)#true for testing, false by default
+    customers = Customer.find_all_by_updated_at("2012-03-27 14:54:09 UTC")
+    assert_equal 1, customers.count
+  end  
+
 end
 
-#:first_name, :last_name, :id, :created_at, :updated_at, :invoices
+#:first_name, :last_name, :id, :created_at, :updated_at
 
 
 
