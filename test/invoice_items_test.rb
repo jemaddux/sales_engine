@@ -71,12 +71,6 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
     assert_equal Array, invoice_item_list.class
   end
 
-  def test_that_calling_item_on_an_invoiceitem_instance_returns_an_instance_of_item
-    InvoiceItem.make_invoice_items
-    invoice_item = InvoiceItem.list_of_invoice_items[3]
-    assert_equal Item, invoice_item.item.class
-  end
-
   def test_that_calling_invoice_on_an_invoiceItem_instance_returns_an_instance_of_invoice
     InvoiceItem.make_invoice_items
     invoice_item = InvoiceItem.list_of_invoice_items[23]
@@ -178,17 +172,30 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
     invoice_item = InvoiceItem.find_by_created_at("2012-03-27 14:54:09 UTC")
     assert_equal "1", invoice_item.invoice_id
   end
+
+  def test_that_item_instance_method_returns_an_instance
+    invoice_item = InvoiceItem.new(:item_id => "7")
+    Item.make_items(true)
+    assert_kind_of Item, invoice_item.item
+  end
+
+  def test_that_item_instance_method_returns_correct_instance
+    invoice_item = InvoiceItem.new(:item_id => "7")
+    Item.make_items(true)
+    item = invoice_item.item
+    assert_equal "7", item.id
+  end
+
+  def test_that_invoice_instance_method_returns_an_instance
+    invoice_item = InvoiceItem.new(:invoice_id => "6")
+    Invoice.make_invoices(true)
+    assert_kind_of Invoice, invoice_item.invoice
+  end
+
+  def test_that_invoice_instance_method_returns_correct_values
+    invoice_item = InvoiceItem.new(:invoice_id => "6")
+    Invoice.make_invoices(true)
+    invoice = invoice_item.invoice
+    assert_equal "6", invoice.id
+  end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-

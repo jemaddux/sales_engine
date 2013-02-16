@@ -107,6 +107,16 @@ class InvoiceItem
     find_all_by("invoice", match)
   end
 
+  # Invoice returns an instance of Invoice assocatied with this object
+  def invoice
+    Invoice.find_by_id(@invoice_id)
+  end
+
+  # Item returns an instance of item assocaited with this object
+  def item
+    Item.find_by_id(@item_id)
+  end
+
   # Initialize
 
   def initialize(input)#takes in a hash
