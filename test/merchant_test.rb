@@ -1,11 +1,34 @@
 require 'simplecov'
 SimpleCov.start
-
 require 'minitest/autorun'
 require "./lib/merchant"
 
 class MerchantTest < MiniTest::Unit::TestCase
-	def test_it_exists
+  def test_that_successful_transactions_on_a_merchant_instance_returns_an_array_of_successful_transactions_instances
+    SalesEngine.startup
+    merchant = Merchant.list_of_merchants[45]
+    success_array = merchant.successful_transactions
+    assert_equal 50, success_array.size
+  end
+
+  def test_that_all_invoice_instances_for_a_merchant_instance_returns_an_array_of_instances
+    SalesEngine.startup
+    merchant = Merchant.list_of_merchants[27]
+    invoice_instances = Invoice.find_all_by_merchant_id(merchant.id)
+    assert_equal Array, invoice_instances.class
+    assert_equal 45, invoice_instances.size
+    assert_equal Invoice, invoice_instances[3].class
+  end
+
+	def test_that_most_revenue_x_returns_an_array_x_long
+    returned_array = Merchant.most_revenue(5)
+    assert_equal Array, returned_array.class
+    assert_equal 5, returned_array.length
+  end
+
+#################################################################
+
+  def test_it_exists
 		merchant = Merchant.new({})
 		assert_kind_of Merchant, merchant
 	end

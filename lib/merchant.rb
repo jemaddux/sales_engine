@@ -2,7 +2,7 @@ require './lib/get_csv_mod'
 require './lib/item'
 require './lib/relationships_mod'
 require './lib/invoice'
-# run the csv import in sales_engine.rb
+require './lib/transaction'
 
 class Merchant
   extend GetCSV
@@ -10,6 +10,28 @@ class Merchant
   extend Searching
 
   attr_accessor :id, :name, :created_at, :updated_at, :items
+
+  def self.most_revenue(num)
+    rev_array = []
+    num.times do |x|
+      rev_array << x
+    end
+    rev_array
+  end
+
+  def successful_transactions
+    invoices = Invoice.find_all_by_merchant_id(@id)
+    successes = []
+    ids = []
+    invoices.each do |invoice|
+      ids << invoice.id
+    end
+    successes =  Transaction.data
+    successes.reject! {|i| !ids.include?(i.invoice_id)}
+    successes.select! {|i| i.result == "success"}
+  end
+
+  ##########################################################
 
   def self.make_merchants(testing = false)
     merchant_file = "./data/merchants.csv"
