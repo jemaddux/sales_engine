@@ -1,5 +1,8 @@
 require './lib/get_csv_mod'
 require './lib/searching_mod'
+require './lib/transaction'
+require "./lib/invoice_item"
+require './lib/customer'
 
 class Invoice
 	extend GetCSV
@@ -90,4 +93,36 @@ class Invoice
     @created_at = input[:created_at]
     @updated_at = input[:updated_at]
   end
+
+  def transactions
+    Transaction.find_all_by_invoice_id(@id)
+  end
+
+  def invoice_items
+    InvoiceItem.find_all_by_invoice_id(@id)
+  end
+
+  def items
+    invoice_items = InvoiceItem.find_all_by_invoice_id(@id)
+    some_array = []
+    invoice_items.each do |x|
+      some_array << Item.find_by_id(x.item_id)
+    end
+    some_array
+  end
+
+  def customer
+    Customer.find_by_id(@customer_id)
+  end
 end
+
+
+
+
+
+
+
+
+
+
+

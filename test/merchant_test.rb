@@ -211,6 +211,12 @@ class MerchantTest < MiniTest::Unit::TestCase
     assert_equal Array, merchant.invoices.class
   end
 
+  def test_merchant_hash_invoices_returns_the_correct_array_full_of_invoice_instances
+    Merchant.make_merchants
+    merchant = Merchant.list_of_merchants[1] 
+    invoice = merchant.invoices[0]
+    assert_equal "shipped", invoice.status
+  end
 end
 
 
