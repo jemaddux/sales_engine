@@ -2,6 +2,7 @@ require 'simplecov'
 SimpleCov.start
 require 'minitest/autorun'
 require "./lib/invoice"
+require "./lib/invoice_item"
 
 class InvoiceTest < MiniTest::Unit::TestCase
 	def test_it_exists
@@ -131,4 +132,85 @@ class InvoiceTest < MiniTest::Unit::TestCase
     invoices = Invoice.find_all_by_updated_at("2012-03-09 01:54:10 UTC")
     assert_equal 5, invoices.count
   end    
+
+######################################################
+
+  def test_invoice_hash_transactions_returns_an_array
+    Invoice.make_invoices(true)
+    Transaction.make_transactions(true)
+    invoice = Invoice.list_of_invoices[0]
+    assert_equal Array, invoice.transactions.class
+  end
+
+  def test_invoice_hash_transactions_returns_the_right_instances
+    Invoice.make_invoices(true)
+    Transaction.make_transactions(true)
+    invoice = Invoice.list_of_invoices[0]
+    assert_equal Array, invoice.transactions.class
+    assert_equal "1", invoice.transactions[0].id
+    assert_equal "4654405418249632", invoice.transactions[0].credit_card_number
+  end
+
+  def test_invoice_hash_invoice_items_returns_an_array
+    Invoice.make_invoices(true)
+    InvoiceItem.make_invoice_items(true)
+    invoice = Invoice.list_of_invoices[0]
+    assert_equal Array, invoice.invoice_items.class
+  end
+
+  def test_invoice_hash_invoice_items_returns_the_right_instances
+    Invoice.make_invoices(true)
+    InvoiceItem.make_invoice_items(true)
+    invoice = Invoice.list_of_invoices[0]
+    assert_equal Array, invoice.invoice_items.class
+    assert_equal "1", invoice.invoice_items[0].id
+  end
+
+  def test_invoice_hash_items_returns_an_array
+    Invoice.make_invoices
+    Item.make_items
+    InvoiceItem.make_invoice_items
+    invoice = Invoice.list_of_invoices[0]
+    assert_equal Array, invoice.items.class
+  end
+
+  def test_invoice_hash_items_returns_the_right_instances
+    Invoice.make_invoices
+    Item.make_items
+    InvoiceItem.make_invoice_items
+    invoice = Invoice.list_of_invoices[0]
+    assert_equal Array, invoice.items.class
+    assert_equal "539", invoice.items[0].id
+  end
+
+  def test_invoice_hash_customer_returns_an_instance_of_the_customer_class
+    Invoice.make_invoices
+    Customer.make_customers
+    invoice = Invoice.list_of_invoices[120]
+    assert_equal Customer, invoice.customer.class
+  end  
+
+  def test_invoice_hash_customer_returns_the_right_instance_of_customer
+    Invoice.make_invoices
+    Customer.make_customers
+    invoice = Invoice.list_of_invoices[75]
+    customer = invoice.customer
+    assert_equal "15", customer.id
+  end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

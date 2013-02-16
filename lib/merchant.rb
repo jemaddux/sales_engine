@@ -100,8 +100,7 @@ class Merchant
   end
 
   def invoices
-    x = []
-    x.push(self.id)
+    Invoice.find_all_by_merchant_id(@id)
   end
 
 end
