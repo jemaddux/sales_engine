@@ -148,4 +148,47 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
   end
 
 ################################################
+
+  def test_that_invoice_item_find_by_item_id_returns_the_correct_item
+    InvoiceItem.make_invoice_items(true)#true for testing, false by default
+    invoice_item = InvoiceItem.find_by_item_id("1832")
+    assert_equal "1832", invoice_item.item_id
+  end
+
+  def test_that_invoice_item_find_by_invoice_id_returns_the_correct_item
+    InvoiceItem.make_invoice_items(true)#true for testing, false by default
+    invoice_item = InvoiceItem.find_by_invoice_id("2")
+    assert_equal "2", invoice_item.invoice_id
+  end
+
+  def test_that_invoice_item_find_by_quantity_returns_the_correct_item
+    InvoiceItem.make_invoice_items(true)#true for testing, false by default
+    invoice_item = InvoiceItem.find_by_quantity("6")
+    assert_equal "8", invoice_item.id
+  end
+
+  def test_that_invoice_item_find_by_unit_price_returns_the_correct_item
+    InvoiceItem.make_invoice_items(true)#true for testing, false by default
+    invoice_item = InvoiceItem.find_by_unit_price("13635")
+    assert_equal "1", invoice_item.invoice_id
+  end
+
+  def test_that_invoice_item_find_by_created_at_returns_the_correct_item
+    InvoiceItem.make_invoice_items(true)#true for testing, false by default
+    invoice_item = InvoiceItem.find_by_created_at("2012-03-27 14:54:09 UTC")
+    assert_equal "1", invoice_item.invoice_id
+  end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
