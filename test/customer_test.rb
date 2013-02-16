@@ -117,6 +117,16 @@ class CustomerTest < MiniTest::Unit::TestCase
     assert Customer.respond_to?(:find_all_by_invoices)
   end
 
+  def test_self_data_method_returns
+    list = Customer.list_of_customers
+    assert_equal list, Customer.data
+  end
+
+  def test_customer_find_by_first_name_returns_a_string
+    Customer.make_customers(true)#true for testing, false by default
+    customer = Customer.find_by_first_name("Joey")
+    assert_equal "Joey", customer.first_name
+  end
 
 end
 

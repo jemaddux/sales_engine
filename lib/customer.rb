@@ -1,7 +1,9 @@
 require './lib/get_csv_mod'
+require './lib/searching_mod'
 
 class Customer
 	extend GetCSV
+  extend Searching
 
   attr_accessor :first_name, :last_name, :id, :created_at, :updated_at, :invoices
 
