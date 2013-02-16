@@ -7,7 +7,7 @@ class Item
   extend Searching
 
   attr_accessor :name, :id, :created_at, :updated_at, :description, 
-    :unit_price, :merchant_id, :invoice_items, :merchant
+    :unit_price, :merchant_id
 
   def self.make_items(testing=false)
     item_file = "./data/items.csv"
@@ -106,6 +106,14 @@ class Item
     find_all_by("merchant", match)
   end
 
+  def invoice_items
+    InvoiceItem.find_all_by_item_id(@id)
+  end
+
+  def merchant
+    Merchant.find_by_id(@merchant_id)
+  end
+
   # Initialize
 
   def initialize(input)#takes in a hash
@@ -116,7 +124,5 @@ class Item
     @description = input[:description]
     @merchant_id = input[:merchant_id]
     @unit_price = input[:unit_price]
-    @invoice_items = []
-    @merchant = Merchant.new({})
   end
 end

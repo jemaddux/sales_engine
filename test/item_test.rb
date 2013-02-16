@@ -78,12 +78,6 @@ class ItemTest < MiniTest::Unit::TestCase
     assert_equal Array, item.invoice_items.class
   end
 
-  def test_that_calling_merchant_on_an_item_instance_returns_an_instance_of_merchant
-    Item.make_items
-    item = Item.list_of_items[2]
-    assert_equal Merchant, item.merchant.class
-  end
-
   # :name, :id, :created_at, :updated_at, :description, :unit_price, :merchant_id, :invoice_items, :merchant
 
   def test_item_responds_to_find_by_name
@@ -173,5 +167,31 @@ class ItemTest < MiniTest::Unit::TestCase
     Item.make_items(true)#true for testing, false by default
     items = Item.find_all_by_updated_at("2012-03-27 14:53:59 UTC")
     assert_equal 13, items.count
-  end  
+  end
+
+  def test_invoice_items_instance_method_returns_an_array
+    item = Item.new({:id => "1"})
+    InvoiceItem.make_invoice_items(true)#true for testing, false by default
+    assert_equal Array, item.invoice_items.class 
+  end
+
+  def test_invoice_items_instance_method_returns_correct_values
+    item = Item.new({:id => "539"})
+    InvoiceItem.make_invoice_items(true)#true for testing, false by default
+    invoice_items = item.invoice_items
+    assert_equal "539", invoice_items[0].item_id
+  end
+
+  def test_merchant_instance_method_returns_an_instance
+    item = Item.new({:merchant_id => "1"})
+    merchants = Merchant.make_merchants(true)
+    assert_kind_of Merchant, item.merchant
+  end
+
+  def test_merchant_instance_method_returns_correct_instance
+    item = Item.new({:merchant_id => "2"})
+    merchants = Merchant.make_merchants(true)
+    merchant = item.merchant
+    assert_equal "2", merchant.id
+  end
 end

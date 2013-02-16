@@ -97,6 +97,12 @@ class Transaction
     find_all_by("invoice", match)
   end
 
+  # Invoice returns an instance of invoice associated with this object
+
+  def invoice
+    Invoice.find_by_id(@invoice_id)
+  end
+
   # Initialize
 
   def initialize(input)#takes in a hash

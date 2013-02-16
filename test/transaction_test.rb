@@ -171,18 +171,18 @@ class TransactionTest < MiniTest::Unit::TestCase
     Transaction.make_transactions(true)#true for testing, false by default
     transactions = Transaction.find_all_by_updated_at("2012-03-27 14:54:09 UTC")
     assert_equal 2, transactions.count
-  end  
+  end
+
+  def test_invoice_instance_method_returns_an_instance
+    transaction = Transaction.new({:invoice_id => "7"})
+    invoices = Invoice.make_invoices(true)
+    assert_kind_of Invoice, transaction.invoice
+  end
+
+  def test_invoice_instance_method_returns_the_right_instance
+    transaction = Transaction.new({:invoice_id => "7"})
+    invoices = Invoice.make_invoices(true)
+    invoice = transaction.invoice
+    assert_equal "7", invoice.id
+  end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
