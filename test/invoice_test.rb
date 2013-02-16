@@ -91,4 +91,44 @@ class InvoiceTest < MiniTest::Unit::TestCase
   def test_invoice_responds_to_find_by_updated_at
     assert Invoice.respond_to?(:find_by_updated_at) 
   end
+
+################################################
+
+  def test_invoice_find_by_id_returns_the_correct_id
+    Invoice.make_invoices(true)#true for testing, false by default
+    invoice = Invoice.find_by_id("3")
+    assert_equal "3", invoice.id
+  end  
+
+  def test_invoice_find_by_created_at_returns_the_correct_created_at
+    Invoice.make_invoices(true)#true for testing, false by default
+    invoice = Invoice.find_by_created_at("2012-03-09 01:54:10 UTC")
+    assert_equal "2012-03-09 01:54:10 UTC", invoice.created_at
+  end
+
+  def test_invoice_find_by_updated_at_returns_the_correct_time
+    Invoice.make_invoices(true)#true for testing, false by default
+    invoice = Invoice.find_by_updated_at("2012-03-09 01:54:10 UTC")
+    assert_equal "2012-03-09 01:54:10 UTC", invoice.updated_at
+  end  
+
+############################################
+
+  def test_invoice_find_all_by_id_returns_the_count
+    Invoice.make_invoices(true)#true for testing, false by default
+    invoices = Invoice.find_all_by_id("3")
+    assert_equal 2, invoices.count
+  end  
+
+  def test_invoice_find_all_by_created_at_returns_the_correct_amount
+    Invoice.make_invoices(true)#true for testing, false by default
+    invoices = Invoice.find_all_by_created_at("2012-03-09 01:54:10 UTC")
+    assert_equal 5, invoices.count
+  end
+
+  def test_invoice_find_all_by_updated_at_returns_the_correct_time
+    Invoice.make_invoices(true)#true for testing, false by default
+    invoices = Invoice.find_all_by_updated_at("2012-03-09 01:54:10 UTC")
+    assert_equal 5, invoices.count
+  end    
 end

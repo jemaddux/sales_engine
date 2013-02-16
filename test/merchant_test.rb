@@ -178,6 +178,31 @@ class MerchantTest < MiniTest::Unit::TestCase
     assert_equal "2012-03-27 14:53:59 UTC", merchant.updated_at
   end  
 
+############################################
+
+  def test_merchant_find_all_by_name_returns_the_count
+    Merchant.make_merchants(true)#true for testing, false by default
+    merchants = Merchant.find_all_by_name("Bechtelar, Jones and Stokes")
+    assert_equal 7, merchants.count
+  end  
+
+  def test_merchant_find_all_by_id_returns_the_count
+    Merchant.make_merchants(true)#true for testing, false by default
+    merchants = Merchant.find_all_by_id("3")
+    assert_equal 1, merchants.count
+  end  
+
+  def test_merchant_find_all_by_created_at_returns_the_correct_amount
+    Merchant.make_merchants(true)#true for testing, false by default
+    merchants = Merchant.find_all_by_created_at("2012-03-27 14:54:00 UTC")
+    assert_equal 7, merchants.count
+  end
+
+  def test_merchant_find_all_by_updated_at_returns_the_correct_time
+    Merchant.make_merchants(true)#true for testing, false by default
+    merchants = Merchant.find_all_by_updated_at("2012-03-27 14:54:00 UTC")
+    assert_equal 7, merchants.count
+  end  
 
 end
 

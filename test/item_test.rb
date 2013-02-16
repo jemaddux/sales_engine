@@ -121,4 +121,57 @@ class ItemTest < MiniTest::Unit::TestCase
   def test_item_responds_to_find_by_merchant
     assert Item.respond_to?(:find_by_merchant) 
   end
+
+
+################################################
+
+  def test_item_find_by_name_returns_the_correct_name
+    Item.make_items(true)#true for testing, false by default
+    item = Item.find_by_name("Item Quo Magnam")
+    assert_equal "Item Quo Magnam", item.name
+  end  
+
+  def test_item_find_by_id_returns_the_correct_id
+    Item.make_items(true)#true for testing, false by default
+    item = Item.find_by_id("3")
+    assert_equal "3", item.id
+  end  
+
+  def test_item_find_by_created_at_returns_the_correct_created_at
+    Item.make_items(true)#true for testing, false by default
+    item = Item.find_by_created_at("2012-03-27 14:53:59 UTC")
+    assert_equal "2012-03-27 14:53:59 UTC", item.created_at
+  end
+
+  def test_item_find_by_updated_at_returns_the_correct_time
+    Item.make_items(true)#true for testing, false by default
+    item = Item.find_by_updated_at("2012-03-27 14:53:59 UTC")
+    assert_equal "2012-03-27 14:53:59 UTC", item.updated_at
+  end  
+
+############################################
+
+  def test_item_find_all_by_name_returns_the_amount
+    Item.make_items(true)#true for testing, false by default
+    items = Item.find_all_by_name("Item Quo Magnam")
+    assert_equal 5, items.count
+  end
+
+  def test_item_find_all_by_id_returns_the_count
+    Item.make_items(true)#true for testing, false by default
+    items = Item.find_all_by_id("3")
+    assert_equal 1, items.count
+  end  
+
+  def test_item_find_all_by_created_at_returns_the_correct_amount
+    Item.make_items(true)#true for testing, false by default
+    items = Item.find_all_by_created_at("2012-03-27 14:53:59 UTC")
+    assert_equal 13, items.count
+  end
+
+  def test_item_find_all_by_updated_at_returns_the_correct_time
+    Item.make_items(true)#true for testing, false by default
+    items = Item.find_all_by_updated_at("2012-03-27 14:53:59 UTC")
+    assert_equal 13, items.count
+  end  
 end

@@ -132,6 +132,46 @@ class TransactionTest < MiniTest::Unit::TestCase
   def test_Transaction_responds_to_find_all_by_result
     assert Transaction.respond_to?(:find_all_by_result)
   end
+
+################################################
+
+  def test_transaction_find_by_id_returns_the_correct_id
+    Transaction.make_transactions(true)#true for testing, false by default
+    transaction = Transaction.find_by_id("3")
+    assert_equal "3", transaction.id
+  end  
+
+  def test_transaction_find_by_created_at_returns_the_correct_created_at
+    Transaction.make_transactions(true)#true for testing, false by default
+    transaction = Transaction.find_by_created_at("2012-03-27 14:54:10 UTC")
+    assert_equal "2012-03-27 14:54:10 UTC", transaction.created_at
+  end
+
+  def test_transaction_find_by_updated_at_returns_the_correct_time
+    Transaction.make_transactions(true)#true for testing, false by default
+    transaction = Transaction.find_by_updated_at("2012-03-27 14:54:10 UTC")
+    assert_equal "2012-03-27 14:54:10 UTC", transaction.updated_at
+  end  
+
+############################################
+
+  def test_transaction_find_all_by_id_returns_the_count
+    Transaction.make_transactions(true)#true for testing, false by default
+    transactions = Transaction.find_all_by_id("3")
+    assert_equal 1, transactions.count
+  end  
+
+  def test_transaction_find_all_by_created_at_returns_the_correct_amount
+    Transaction.make_transactions(true)#true for testing, false by default
+    transactions = Transaction.find_all_by_created_at("2012-03-27 14:54:10 UTC")
+    assert_equal 17, transactions.count
+  end
+
+  def test_transaction_find_all_by_updated_at_returns_the_correct_time
+    Transaction.make_transactions(true)#true for testing, false by default
+    transactions = Transaction.find_all_by_updated_at("2012-03-27 14:54:09 UTC")
+    assert_equal 2, transactions.count
+  end  
 end
 
 

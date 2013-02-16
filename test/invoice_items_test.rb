@@ -118,4 +118,34 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
   def test_invoice_items_responds_to_find_by_invoice
     assert InvoiceItem.respond_to?(:find_by_invoice) 
   end
+
+################################################
+
+  def test_invoice_items_find_by_id_returns_the_correct_id
+    InvoiceItem.make_invoice_items(true)#true for testing, false by default
+    invoice_items = InvoiceItem.find_by_id("3")
+    assert_equal "3", invoice_items.id
+  end  
+
+  def test_invoice_items_find_by_updated_at_returns_the_correct_time
+    InvoiceItem.make_invoice_items(true)#true for testing, false by default
+    invoice_item = InvoiceItem.find_by_updated_at("2012-03-27 14:54:09 UTC")
+    assert_equal "2012-03-27 14:54:09 UTC", invoice_item.updated_at
+  end  
+
+############################################
+
+  def test_invoice_item_find_all_by_id_returns_the_count
+    InvoiceItem.make_invoice_items(true)#true for testing, false by default
+    invoice_items = InvoiceItem.find_all_by_id("3")
+    assert_equal 1, invoice_items.count
+  end  
+
+  def test_invoice_item_find_all_by_created_at_returns_the_correct_amount
+    InvoiceItem.make_invoice_items(true)#true for testing, false by default
+    invoice_items = InvoiceItem.find_all_by_created_at("2012-03-27 14:54:09 UTC")
+    assert_equal 15, invoice_items.count
+  end
+
+################################################
 end
