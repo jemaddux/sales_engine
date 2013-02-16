@@ -25,6 +25,18 @@ class Transaction
     return @list_of_transactions
   end
 
+  def self.successful_transactions
+    find_all_by("result", "success")
+  end
+
+  def self.successful_transaction_invoice_ids
+    successful_invoice_ids = []
+    successful_transactions.each do |transaction|
+      successful_invoice_ids << transaction.invoice_id
+    end
+    successful_invoice_ids
+  end
+
   def self.data
     list_of_transactions
   end

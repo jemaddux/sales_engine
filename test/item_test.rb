@@ -194,4 +194,11 @@ class ItemTest < MiniTest::Unit::TestCase
     merchant = item.merchant
     assert_equal "2", merchant.id
   end
+
+  def test_most_revenue_returns_hash_of_items_and_revenues
+    Item.make_items
+    InvoiceItem.make_invoice_items
+    Transaction.make_transactions
+    assert_kind_of Hash, Item.most_revenue
+  end
 end
