@@ -204,6 +204,13 @@ class MerchantTest < MiniTest::Unit::TestCase
     assert_equal 7, merchants.count
   end  
 
+###################################################
+  def test_merchant_hash_invoices_returns_an_array_collection_of_invoice_instances
+    Merchant.make_merchants
+    merchant = Merchant.list_of_merchants[42] 
+    assert_equal Array, merchant.invoices.class
+  end
+
 end
 
 

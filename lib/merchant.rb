@@ -1,6 +1,7 @@
 require './lib/get_csv_mod'
 require './lib/item'
 require './lib/relationships_mod'
+require './lib/invoice'
 # run the csv import in sales_engine.rb
 
 class Merchant
@@ -8,7 +9,7 @@ class Merchant
   extend Relationships
   extend Searching
 
-  attr_accessor :id, :name, :created_at, :updated_at, :items, :invoices
+  attr_accessor :id, :name, :created_at, :updated_at, :items
 
   def self.make_merchants(testing = false)
     merchant_file = "./data/merchants.csv"
@@ -90,13 +91,17 @@ class Merchant
     @created_at = merchant[:created_at]
     @updated_at = merchant[:updated_at]
     @items = []
-    @invoices = []
   end
 
   def self.add_relationships
     @list_of_merchants.each do |merchant|
       merchant.items = get_items(merchant.id)
     end
+  end
+
+  def invoices
+    x = []
+    x.push(self.id)
   end
 
 end
