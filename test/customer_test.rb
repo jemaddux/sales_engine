@@ -61,12 +61,6 @@ class CustomerTest < MiniTest::Unit::TestCase
     assert_equal "Joey", @list_of_customers[0].first_name
   end
 
-  def test_that_calling_invoices_on_an_instance_of_customer_returns_an_array
-    Customer.make_customers(true)#true for using tesing data, false by default
-    customer = Customer.list_of_customers[2]
-    assert_equal Array, customer.invoices.class
-  end
-
 ########################
 
   def test_Customer_responds_to_find_by_id
@@ -186,20 +180,16 @@ class CustomerTest < MiniTest::Unit::TestCase
     assert_equal 1, customers.count
   end  
 
+  def test_invoices_instance_method_returns_an_array
+    customer = Customer.new(:id => "3")
+    Invoice.make_invoices(true)
+    assert_kind_of Array, customer.invoices
+  end
+
+  def test_invoices_instance_method_returns_correct_information
+    customer = Customer.new(:id => "3")
+    Invoice.make_invoices(true)
+    invoices = customer.invoices
+    assert_equal "3", invoices[0].customer_id
+  end
 end
-
-#:first_name, :last_name, :id, :created_at, :updated_at
-
-
-
-
-
-
-
-
-
-
-
-
-
-

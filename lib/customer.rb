@@ -84,6 +84,11 @@ class Customer
     find_all_by("invoices", match)
   end
 
+  # Invoices returns a collection of Invoice instances associated with this object
+  def invoices
+    Invoice.find_all_by_customer_id(@id)
+  end
+
   # Initialize
 
   def initialize(input)#takes in a hash
