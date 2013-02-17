@@ -106,24 +106,17 @@ class Item
     find_all_by("merchant", match)
   end
 
-  def self.most_revenue
-    successful_transaction_invoice_ids = Transaction.successful_transaction_invoice_ids
-
-    successful_invoice_items = []
-    successful_transaction_invoice_ids.each do |successful_invoice_id|
-      InvoiceItem.data.each do |invoice_item|
-        if invoice_item.invoice_id == successful_invoice_id
-          successful_invoice_items << invoice_item
-        end
-      end
+  def self.most_revenue(count)
+    item_revenues = Hash.new(0)
+    InvoiceItem.data.each do |invoice_item|
+      revenue = (invoice_item.quantity.to_i * invoice_item.unit_price.to_i)
+      item_revenues[invoice_item.item_id] += revenue
     end
-
-    item_revenues = {}
-    successful_invoice_items.each do |successful_invoice_item|
-      revenue = (successful_invoice_item.quantity.to_i * successful_invoice_item.unit_price.to_i)
-      item_revenues[successful_invoice_item.item_id] = revenue
+    top_item_revenues = item_revenues.sort_by{ |k,v| -v }[0..(count-1)]
+    top_item_instances = []
+    top_item_revenues.each do |item_id, revenue|
+      top_item_instances << InvoiceItem.find_by_id(item_id)
     end
-    item_revenues
   end
 
   def invoice_items
