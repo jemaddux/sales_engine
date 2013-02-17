@@ -19,6 +19,31 @@ class Merchant
     rev_array
   end
 
+  def revenue
+    merchant_revenue = BigDecimal('0.00')
+    invoice_items = []
+    invoice_ids = []
+    successful_invoices.each do |invoice|
+      invoice_ids << invoice.id
+    end
+    invoice_items = InvoiceItem.data
+    invoice_items.reject! {|i| !invoice_ids.include?(i.invoice_id)}
+    invoice_items.each do |invoice_item|
+      merchant_revenue += BigDecimal("#{invoice_item.unit_price.to_i*invoice_item.quantity.to_i}.00")
+    end
+    return merchant_revenue
+  end
+
+  def successful_invoices
+    ids = []
+    successful_transactions.each do |transaction|
+      ids << transaction.invoice_id
+    end
+    successes =  Invoice.data
+    successes.reject! {|i| !ids.include?(i.id)}
+    return successes
+  end
+
   def successful_transactions
     invoices = Invoice.find_all_by_merchant_id(@id)
     successes = []

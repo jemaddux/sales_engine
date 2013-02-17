@@ -4,6 +4,26 @@ require 'minitest/autorun'
 require "./lib/merchant"
 
 class MerchantTest < MiniTest::Unit::TestCase
+  def test_that_merchant_hash_revenue_returns_the_right_revenue
+    SalesEngine.startup
+    merchant = Merchant.list_of_merchants[23]
+    assert_equal BigDecimal('41312269.00'), merchant.revenue
+  end
+
+  def test_that_merchant_hash_revenue_returns_a_big_decimal
+    SalesEngine.startup
+    merchant = Merchant.list_of_merchants[12]
+    assert_equal BigDecimal, merchant.revenue.class
+  end
+
+  def test_that_successful_invoices_returns_a_merchants_successfully_billed_invoices
+    SalesEngine.startup
+    merchant = Merchant.list_of_merchants[45]
+    invoices = merchant.successful_invoices
+    assert_equal 50, invoices.size
+    assert_equal "46", invoices[4].merchant_id
+  end
+
   def test_that_successful_transactions_on_a_merchant_instance_returns_an_array_of_successful_transactions_instances
     SalesEngine.startup
     merchant = Merchant.list_of_merchants[45]
@@ -114,6 +134,7 @@ class MerchantTest < MiniTest::Unit::TestCase
   end
 
   def test_merchant_can_find_items_by_merchant_id_in_real_data
+    SalesEngine.startup
     Merchant.make_merchants
     Item.make_items
     Merchant.add_relationships
@@ -122,6 +143,7 @@ class MerchantTest < MiniTest::Unit::TestCase
   end
 
   def test_merchants_returns_an_array_when_invoices_is_called_on_an_instance
+    SalesEngine.startup
     Merchant.make_merchants
     merchant = Merchant.list_of_merchants[23]
     assert_equal Array, merchant.invoices.class
@@ -229,12 +251,14 @@ class MerchantTest < MiniTest::Unit::TestCase
 
 ###################################################
   def test_merchant_hash_invoices_returns_an_array_collection_of_invoice_instances
+    SalesEngine.startup
     Merchant.make_merchants
     merchant = Merchant.list_of_merchants[42] 
     assert_equal Array, merchant.invoices.class
   end
 
   def test_merchant_hash_invoices_returns_the_correct_array_full_of_invoice_instances
+    SalesEngine.startup
     Merchant.make_merchants
     merchant = Merchant.list_of_merchants[1] 
     invoice = merchant.invoices[0]
