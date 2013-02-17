@@ -199,7 +199,7 @@ class ItemTest < MiniTest::Unit::TestCase
     Item.make_items
     InvoiceItem.make_invoice_items
     Transaction.make_transactions
-    assert_kind_of Hash, Item.most_revenue(5)
+    assert_kind_of Array, Item.most_revenue(5)
   end
 
 end
