@@ -32,7 +32,7 @@ class Transaction
   def self.successful_transaction_invoice_ids
     successful_invoice_ids = []
     successful_transactions.each do |transaction|
-      successful_invoice_ids << transaction.invoice_id
+      successful_invoice_ids << transaction
     end
     successful_invoice_ids
   end
