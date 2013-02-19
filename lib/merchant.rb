@@ -9,23 +9,27 @@ class Merchant
   extend Relationships
   extend Searching
 
-  attr_accessor :id, :name, :created_at, :updated_at, :items, :num_items, :how_much_rev, :invoices2
+  attr_accessor :id, :name, :created_at, :updated_at, :items, :num_items, :how_much_rev,            :invoice_ids
 
-  def get_rev(merch_id)
-    merch_id
+  # def get_rev(merch_id)
+  #   merch_id
+  # end
+
+  def self.add_rev
+    @list_of_merchants.each do |merchant|
+      merchant.how_much_rev = merchant.revenue
+    end
   end
 
-  # def self.most_revenue(x)
-  #   merch_list = self.data
-  #   merch_list.each do |merchant|
-  #     merchant.how_much_rev = merchant.revenue
-  #   end
-  #   merch_list.sort! do |a, b|
-  #     a.how_much_rev <=> b.how_much_rev
-  #   end
-  #   merch_list.reverse!
-  #   return merch_list[0..(x-1)]
-  # end
+  def self.most_revenue(x)
+    Merchant.add_rev
+    merch_list = Merchant.list_of_merchants
+    merch_list.sort! do |a, b|
+      a.how_much_rev <=> b.how_much_rev
+    end
+    merch_list.reverse!
+    return merch_list[0..(x-1)]
+  end
 
   def self.most_items(x)
     merch_list = self.data
@@ -39,52 +43,90 @@ class Merchant
     return merch_list[0..(x-1)]
   end
 
-  def revenue
-    merchant_revenue = BigDecimal('0.00')
-    invoice_items = []
-    invoice_ids = []
-    temp = self.successful_invoices
-    if temp == []
-      return merchant_revenue
+  def revenue(date=0)
+    self.invoice_ids = merchant_invoices(self.id)
+    self.invoice_ids = remove_bad_transactions(self.invoice_ids, self.id)
+    rev_total = 0.0
+    mer_invoice_items = [] ###make empty array of invoiceItems
+    self.invoice_ids.each do |id|
+      temp_invoice_items = InvoiceItem.find_all_by_invoice_id(id)
+      temp_invoice_items.each do |invoice_item|
+        mer_invoice_items << invoice_item
+      end
     end
-    temp.each do |invoice|
-      invoice_ids << invoice.id
-    end
-    invoice_items = InvoiceItem.data
-    invoice_items.reject! {|i| !invoice_ids.include?(i.invoice_id)}
-    invoice_items.each do |invoice_item|
-      merchant_revenue += BigDecimal("#{invoice_item.unit_price.to_i*invoice_item.quantity.to_i}.00")
-    end
-    return merchant_revenue
+    mer_invoice_items.each do |invo_item|
+       rev_total += invo_item.quantity.to_i * invo_item.unit_price.to_f
+     end
+    return BigDecimal("#{rev_total}")
   end
 
-  def successful_invoices
-    ids = []
-    self.successful_transactions.each do |transaction|
-      ids << transaction.invoice_id
+  def merchant_invoices(merchant_id)
+    invoice_ids_mer = []
+    temp_invoices = Invoice.find_all_by_merchant_id(merchant_id)
+    temp_invoices.each do |invoi|
+      invoice_ids_mer << invoi.id
     end
-    successes =  Invoice.data
-    successes.reject! {|i| !ids.include?(i.id)}
-    return successes
+    return invoice_ids_mer
   end
 
-  def successful_transactions
-    successes = []
-    if ((@id == nil) || (@id.to_i > 100))
-      return []
+  def remove_bad_transactions(invoice_ids, merchant_id)
+    bad_ids = []
+    invoice_ids.each do |id|
+      trans = Transaction.find_all_by_invoice_id(id)
+      trans = trans.select{|tran| tran.result == "success"}
+      if trans.size == 0
+        bad_ids << id
+      end
     end
-    invoices = Invoice.find_all_by_merchant_id(self.id)
-    if invoices == []  
-      return successes
-    end
-    ids = []
-    invoices.each do |invoice|
-      ids << invoice.id
-    end
-    successes =  Transaction.data
-    successes.reject! {|i| !ids.include?(i.invoice_id)}
-    successes.select! {|i| i.result == "success"}
+    invoice_ids = invoice_ids - bad_ids
   end
+
+  # def revenue
+  #   merchant_revenue = BigDecimal('0.00')
+  #   invoice_items = []
+  #   invoice_ids = []
+  #   temp = self.successful_invoices
+  #   if temp == []
+  #     return merchant_revenue
+  #   end
+  #   temp.each do |invoice|
+  #     invoice_ids << invoice.id
+  #   end
+  #   invoice_items = InvoiceItem.data
+  #   invoice_items.reject! {|i| !invoice_ids.include?(i.invoice_id)}
+  #   invoice_items.each do |invoice_item|
+  #     merchant_revenue += BigDecimal("#{invoice_item.unit_price.to_i*invoice_item.quantity.to_i}.00")
+  #   end
+  #   return merchant_revenue
+  # end
+
+  # def successful_invoices
+  #   ids = []
+  #   self.successful_transactions.each do |transaction|
+  #     ids << transaction.invoice_id
+  #   end
+  #   successes =  Invoice.data
+  #   successes.reject! {|i| !ids.include?(i.id)}
+  #   return successes
+  # end
+
+  # def successful_transactions
+  #   successes = []
+  #   if ((@id == nil) || (@id.to_i > 100))
+  #     return []
+  #   end
+  #   invoices = Invoice.find_all_by_merchant_id(self.id)
+  #   if invoices == []  
+  #     return successes
+  #   end
+  #   ids = []
+  #   invoices.each do |invoice|
+  #     ids << invoice.id
+  #   end
+  #   successes =  Transaction.data
+  #   successes.reject! {|i| !ids.include?(i.invoice_id)}
+  #   successes.select! {|i| i.result == "success"}
+  # end
 
   ##########################################################
 
@@ -170,7 +212,7 @@ class Merchant
     @items = []
     @num_items = 0
     @how_much_rev = 0
-    # @invoices2 = []
+    @invoice_ids = []
     # @invoice_items = []
     # @transactions = [1,2,3,4]
   end
