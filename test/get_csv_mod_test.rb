@@ -1,10 +1,11 @@
-require 'simplecov'
-SimpleCov.start
-require 'minitest/autorun'
+#require 'simplecov'
+#SimpleCov.start
+#require 'minitest/autorun'
 require "./lib/get_csv_mod"
 require 'csv'
-require 'minitest/pride'
+#require 'minitest/pride'
 require './lib/invoice'
+require_relative 'support'
 
 class GetCSVTest < MiniTest::Unit::TestCase
 	def test_customer_csv_file_exists

@@ -1,9 +1,10 @@
-require 'simplecov'
-SimpleCov.start
-require 'minitest/autorun'
+#require 'simplecov'
+#SimpleCov.start
+#require 'minitest/autorun'
 require "./lib/customer"
 require "time"
-require 'minitest/pride'
+#require 'minitest/pride'
+require_relative 'support'
 
 class CustomerTest < MiniTest::Unit::TestCase
 	def test_it_exists

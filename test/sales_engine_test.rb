@@ -1,8 +1,9 @@
-require 'simplecov'
-SimpleCov.start
-require 'minitest/autorun'
+#require 'simplecov'
+#SimpleCov.start
+#require 'minitest/autorun'
 require "./sales_engine"
-require 'minitest/pride'
+#require 'minitest/pride'
+require_relative 'support'
 
 class SalesEngineTest < MiniTest::Unit::TestCase
 	def test_it_exists

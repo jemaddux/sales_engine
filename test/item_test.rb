@@ -1,8 +1,9 @@
-require 'simplecov'
-SimpleCov.start
-require 'minitest/autorun'
+#require 'simplecov'
+#SimpleCov.start
+#require 'minitest/autorun'
 require "./lib/item"
 require 'bigdecimal'
+require_relative 'support'
 
 class ItemTest < MiniTest::Unit::TestCase
 	def test_it_exists

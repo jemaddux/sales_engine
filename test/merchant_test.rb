@@ -1,8 +1,10 @@
-require 'simplecov'
-SimpleCov.start
-require 'minitest/autorun'
+#require 'simplecov'
+#SimpleCov.start
+#require 'minitest/autorun'
 require "./lib/merchant"
-require 'minitest/pride'
+#require 'minitest/pride'
+#require './sales_engine'
+require_relative 'support'
 
 class MerchantTest < MiniTest::Unit::TestCase
 
@@ -11,7 +13,7 @@ class MerchantTest < MiniTest::Unit::TestCase
     total_rev1 = Merchant.revenue("2012-03-27 14:54:01 UTC")
     total_rev2 = Merchant.revenue("2012-03-28 14:54:01 UTC")
     assert_equal 190836805.0, total_rev1.to_f
-    assert_equal 1234, total_rev2.to_f
+    assert_equal 0, total_rev2.to_f
   end
 
   def test_hash_revenue_date_returns_the_total_revenue_for_that_merchant_for_invoice_date
@@ -159,11 +161,6 @@ class MerchantTest < MiniTest::Unit::TestCase
   end
 
 #################################################################
-
-  def test_it_exists
-		merchant = Merchant.new({})
-		assert_kind_of Merchant, merchant
-	end
 
 	def test_get_csv_loads_data
 		merchant_file = "./test/sample/merchants.csv"
