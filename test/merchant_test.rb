@@ -6,24 +6,57 @@ require 'minitest/pride'
 
 class MerchantTest < MiniTest::Unit::TestCase
 
-  # def test_merchant_most_revenueX_returns_a_list_of_merchant_instances_sorted_by_revenue
-  #   SalesEngine.startup
-  #   list = Merchant.most_revenue(10)
-  #   best_merchant = list[0]
-  #   merchant1 = list[1]
-  #   merchant2 = list[2]
-  #   merchant3 = list[3]
-  #   merchant4 = list[4]
-  #   assert_kind_of Array, list
-  #   assert_equal 52877464.0, best_merchant.how_much_rev.to_f
-  #   assert_equal 5000, merchant1.how_much_rev.to_f
-  #   assert_equal 5000, merchant2.how_much_rev.to_f
-  #   assert_equal 5000, merchant3.how_much_rev.to_f
-  #   assert_equal 5000, merchant4.how_much_rev.to_f
-  #   # 10.times do |x|
-  #   #   assert list[x].how_much_rev >= list[(x+1)].how_much_rev
-  #   # end
-  # end
+  def test_merchant_most_revenueX_returns_a_list_of_merchant_instances_sorted_by_revenue
+    SalesEngine.startup
+    list = Merchant.most_revenue(10)
+    best_merchant = list[0]
+    merchant1 = list[1]
+    merchant2 = list[2]
+    merchant3 = list[3]
+    merchant4 = list[4]
+    assert_kind_of Array, list
+    assert_equal 114839374.0, best_merchant.how_much_rev.to_f
+    assert_equal "Dicki-Bednar", best_merchant.name
+    assert_equal 101527515.0, merchant1.how_much_rev.to_f
+    assert_equal 91742486.0, merchant2.how_much_rev.to_f
+    assert_equal 83149384.0, merchant3.how_much_rev.to_f
+    assert_equal 82959718.0, merchant4.how_much_rev.to_f
+    # 10.times do |x|
+    #   assert list[x].how_much_rev >= list[(x+1)].how_much_rev
+    # end
+  end
+
+  def test_that_remove_bad_transactions_works
+    SalesEngine.startup
+    merchant = Merchant.list_of_merchants[23]
+    mer_ids = merchant.merchant_invoices(merchant.id)
+    new_mer_ids = merchant.remove_bad_transactions(mer_ids, merchant.id)
+    assert_equal 37, new_mer_ids.size
+    assert_equal "179", new_mer_ids[0]
+    assert_equal "187", new_mer_ids[1]
+    assert_equal "381", new_mer_ids[2]
+    assert_equal "517", new_mer_ids[3]
+    assert_equal "683", new_mer_ids[5]
+    assert_equal "1218", new_mer_ids[12]
+    assert_equal "4775", new_mer_ids[36]
+  end
+
+  def test_that_merchant_invoices_works
+    SalesEngine.startup
+    merchant = Merchant.list_of_merchants[23]
+    mer_ids = merchant.merchant_invoices(merchant.id)
+    num_ids = mer_ids.size
+    assert_equal 38, num_ids
+    assert_equal "179", mer_ids[0]
+    assert_equal "187", mer_ids[1]
+    assert_equal "381", mer_ids[2]
+    assert_equal "517", mer_ids[3]
+    assert_equal "683", mer_ids[5]
+    assert_equal "1218", mer_ids[12]
+    assert_equal "4775", mer_ids[37]
+  end
+
+############################################################
 
   def test_merchant_most_itemsX_returns_a_list_of_merchant_instances_sorted_by_num_of_items
     SalesEngine.startup
@@ -64,58 +97,50 @@ class MerchantTest < MiniTest::Unit::TestCase
 
   #######################################################################
 
-  def test_that_merchant_revenue_returns_zero_if_no_merchant
-    SalesEngine.startup
-    merchant = Merchant.new({})
-    rev = BigDecimal('0')
-    assert_equal rev, merchant.revenue    
-  end
+  # def test_that_merchant_revenue_returns_zero_if_no_merchant
+  #   SalesEngine.startup
+  #   merchant = Merchant.new({})
+  #   rev = BigDecimal('0')
+  #   assert_equal rev, merchant.revenue    
+  # end
 
-  def test_if_successful_transactions_can_deal_with_no_merchant
-    SalesEngine.startup
-    merchant = Merchant.new({})
-    invoices = merchant.successful_invoices
-    assert_equal 0, invoices.size
-  end
+  # def test_if_successful_transactions_can_deal_with_no_merchant
+  #   SalesEngine.startup
+  #   merchant = Merchant.new({})
+  #   invoices = merchant.successful_invoices
+  #   assert_equal 0, invoices.size
+  # end
 
   def test_that_merchant_hash_revenue_returns_the_right_revenue
     SalesEngine.startup
     merchant = Merchant.list_of_merchants[23]
-    assert_equal BigDecimal('41312269.00'), merchant.revenue
-  end
-
-  def test_that_merchant_hash_revenue_returns_the_right_revenue2
-    SalesEngine.startup
     mer = Merchant.list_of_merchants[3]
-    assert_equal 55805522.0, mer.revenue.to_f
-  end
-
-  def test_that_merchant_hash_revenue_returns_the_right_revenue4
-    SalesEngine.startup
     merch = Merchant.list_of_merchants[73]
+    assert_equal BigDecimal('41312269.00'), merchant.revenue
+    assert_equal 55805522.0, mer.revenue.to_f
     assert_equal 47447308.0, merch.revenue.to_f
   end
 
-  def test_that_merchant_hash_revenue_returns_a_big_decimal
-    SalesEngine.startup
-    merchant = Merchant.list_of_merchants[12]
-    assert_equal BigDecimal, merchant.revenue.class
-  end
+  # def test_that_merchant_hash_revenue_returns_a_big_decimal
+  #   SalesEngine.startup
+  #   merchant = Merchant.list_of_merchants[12]
+  #   assert_equal BigDecimal, merchant.revenue.class
+  # end
 
-  def test_that_successful_invoices_returns_a_merchants_successfully_billed_invoices
-    SalesEngine.startup
-    merchant = Merchant.list_of_merchants[45]
-    invoices = merchant.successful_invoices
-    assert_equal 50, invoices.size
-    assert_equal "46", invoices[4].merchant_id
-  end
+  # def test_that_successful_invoices_returns_a_merchants_successfully_billed_invoices
+  #   SalesEngine.startup
+  #   merchant = Merchant.list_of_merchants[45]
+  #   invoices = merchant.successful_invoices
+  #   assert_equal 50, invoices.size
+  #   assert_equal "46", invoices[4].merchant_id
+  # end
 
-  def test_that_successful_transactions_on_a_merchant_instance_returns_an_array_of_successful_transactions_instances
-    SalesEngine.startup
-    merchant = Merchant.list_of_merchants[45]
-    success_array = merchant.successful_transactions
-    assert_equal 50, success_array.size
-  end
+  # def test_that_successful_transactions_on_a_merchant_instance_returns_an_array_of_successful_transactions_instances
+  #   SalesEngine.startup
+  #   merchant = Merchant.list_of_merchants[45]
+  #   success_array = merchant.successful_transactions
+  #   assert_equal 50, success_array.size
+  # end
 
   def test_that_all_invoice_instances_for_a_merchant_instance_returns_an_array_of_instances
     SalesEngine.startup
