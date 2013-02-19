@@ -195,10 +195,60 @@ class ItemTest < MiniTest::Unit::TestCase
     assert_equal "2", merchant.id
   end
 
-  def test_most_revenue_returns_hash_of_items_and_revenues
+  def test_get_item_revenues_returns_a_hash
     Item.make_items
     InvoiceItem.make_invoice_items
     Transaction.make_transactions
-    assert_kind_of Array, Item.most_revenue(5)
+    assert_kind_of Hash, Item.get_item_revenues
+  end
+
+  def test_values_in_get_item_revenues_hash_are_bigdecimals
+    Item.make_items
+    InvoiceItem.make_invoice_items
+    Transaction.make_transactions
+    item_revenues = Item.get_item_revenues
+    assert_kind_of BigDecimal, item_revenues.values[0]
+  end
+
+  def test_most_revenue_returns_array_of_item_instances
+    Item.make_items
+    InvoiceItem.make_invoice_items
+    Transaction.make_transactions
+    most_revenue = Item.most_revenue(5)
+    assert_kind_of Array, most_revenue
+    assert_equal 5, most_revenue.count
+  end
+
+  def test_get_item_quantities_returns_a_hash
+    Item.make_items
+    InvoiceItem.make_invoice_items
+    Transaction.make_transactions
+    assert_kind_of Hash, Item.get_item_quantities
+  end
+
+  def test_values_in_get_item_quantities_hash_are_fixnum
+    Item.make_items
+    InvoiceItem.make_invoice_items
+    Transaction.make_transactions
+    item_quantities = Item.get_item_quantities
+    assert_kind_of Fixnum, item_quantities.values[0]
+  end
+
+  def test_most_items_returns_array_of_item_instances
+    Item.make_items
+    InvoiceItem.make_invoice_items
+    Transaction.make_transactions
+    most_items = Item.most_items(5)
+    assert_kind_of Array, most_items
+    assert_equal 5, most_items.count
+  end
+
+  def test_best_day_returns_a_date
+    Item.make_items
+    InvoiceItem.make_invoice_items
+    Invoice.make_invoices
+    Transaction.make_transactions
+    item = Item.find_by_id("965")
+    assert_kind_of Date, item.best_day
   end
 end

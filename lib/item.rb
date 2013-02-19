@@ -1,6 +1,7 @@
 require './lib/get_csv_mod'
 require 'bigdecimal'
 require './lib/searching_mod'
+require 'chronic'
 
 class Item
   extend GetCSV
@@ -106,15 +107,43 @@ class Item
     find_all_by("merchant", match)
   end
 
-  def self.most_revenue(count)
+  # Add to invoiceitems.rb?
+  def self.get_item_revenues
     item_revenues = Hash.new(0)
     InvoiceItem.data.each do |invoice_item|
-      revenue = (invoice_item.quantity.to_i * invoice_item.unit_price.to_i)
+      quantity = BigDecimal(invoice_item.quantity.to_i)
+      unit_price_cents = BigDecimal(invoice_item.unit_price.to_i)
+      unit_price_dollars = (unit_price_cents / BigDecimal('100'))
+      revenue = (quantity * unit_price_dollars)
       item_revenues[invoice_item.item_id] += revenue
+      # To-do: Format in dollars & cents to 2 decimal places
     end
+    item_revenues
+  end
+
+  def self.most_revenue(count)
+    item_revenues = get_item_revenues
     top_item_revenues = item_revenues.sort_by{ |k,v| -v }[0..(count-1)]
     top_item_instances = []
     top_item_revenues.each do |item_id, revenue|
+      top_item_instances << InvoiceItem.find_by_id(item_id)
+    end
+  end
+
+  # Add to invoiceitems.rb?
+  def self.get_item_quantities
+    item_quantities = Hash.new(0)
+    InvoiceItem.data.each do |invoice_item|
+      item_quantities[invoice_item.item_id] += invoice_item.quantity.to_i
+    end
+    item_quantities
+  end
+
+  def self.most_items(count)
+    item_quantities = get_item_quantities
+    top_item_quantities = item_quantities.sort_by{ |k,v| -v }[0..(count-1)]#what is this doing
+    top_item_instances = []
+    top_item_quantities.each do |item_id, quantity|
       top_item_instances << InvoiceItem.find_by_id(item_id)
     end
   end
@@ -125,6 +154,24 @@ class Item
 
   def merchant
     Merchant.find_by_id(@merchant_id)
+  end
+
+  def invoice(invoice_id)
+    Invoice.find_by_id(invoice_id)
+  end
+
+  def best_day
+    item_instances = InvoiceItem.find_all_by_item_id(@id)
+
+    item_sales = Hash.new(0)
+    item_instances.each do |invoice_item|
+      invoice_id = invoice_item.invoice_id
+      invoice = Invoice.find_by_id(invoice_id)
+      invoice_date = Date.parse(invoice.created_at)
+      item_sales[invoice_date.to_s] += invoice_item.quantity.to_i
+    end
+    best_day = item_sales.max_by { |date,value| value }[0]
+    best_day = Date.parse(best_day)
   end
 
   # Initialize
