@@ -1,7 +1,6 @@
 require './lib/get_csv_mod'
 require 'bigdecimal'
 require './lib/searching_mod'
-require 'chronic'
 
 class Item
   extend GetCSV

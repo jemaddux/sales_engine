@@ -251,4 +251,14 @@ class ItemTest < MiniTest::Unit::TestCase
     item = Item.find_by_id("965")
     assert_kind_of Date, item.best_day
   end
+
+  def test_best_day_returns_right_date
+    Item.make_items
+    InvoiceItem.make_invoice_items
+    Invoice.make_invoices
+    Transaction.make_transactions
+    item = Item.find_by_id("965")
+    date = Date.parse("Sat, 24 Mar 2012")
+    assert_equal date, item.best_day
+  end
 end
