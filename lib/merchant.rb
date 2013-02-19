@@ -9,20 +9,28 @@ class Merchant
   extend Relationships
   extend Searching
 
-  attr_accessor :id, :name, :created_at, :updated_at, :items, :num_items, :how_much_rev,            :invoice_ids
+  attr_accessor :id, :name, :created_at, :updated_at, :items, :num_items,
+                :how_much_rev, :invoice_ids
 
-  # def get_rev(merch_id)
-  #   merch_id
-  # end
+  ##############################################
+  def self.revenue(date)
+    temp = Merchant.list_of_merchants
+    total_rev = 0
+    temp.each do |merchant|
+      total_rev += merchant.revenue(date) ######################
+    end
+    return total_rev
+    #for each merchant call merchant.revenue(date)
+  end
 
-  def self.add_rev
+  def self.add_rev(date="all")
     @list_of_merchants.each do |merchant|
-      merchant.how_much_rev = merchant.revenue
+      merchant.how_much_rev = merchant.revenue(date)
     end
   end
 
-  def self.most_revenue(x)
-    Merchant.add_rev
+  def self.most_revenue(x,date="all")
+    Merchant.add_rev(date)
     merch_list = Merchant.list_of_merchants
     merch_list.sort! do |a, b|
       a.how_much_rev <=> b.how_much_rev
@@ -43,9 +51,12 @@ class Merchant
     return merch_list[0..(x-1)]
   end
 
-  def revenue(date=0)
+  def revenue(date="all")
     self.invoice_ids = merchant_invoices(self.id)
     self.invoice_ids = remove_bad_transactions(self.invoice_ids, self.id)
+    if date != "all"
+      self.invoice_ids = remove_dates(self.invoice_ids, self.id, date)
+    end
     rev_total = 0.0
     mer_invoice_items = [] ###make empty array of invoiceItems
     self.invoice_ids.each do |id|
@@ -58,6 +69,22 @@ class Merchant
        rev_total += invo_item.quantity.to_i * invo_item.unit_price.to_f
      end
     return BigDecimal("#{rev_total}")
+  end
+
+  def remove_dates(invoice_ids, merchant_id, date)
+    date = Date.parse(date)
+    bad_ids = []
+    #Invoices have a :created_at date
+    #Find and return an Invoice instance for each invoice_id
+    invoice_ids.each do |i_id|
+      invoice_date = Date.parse(Invoice.find_by_id(i_id).created_at)
+      if date != invoice_date
+        bad_ids << i_id  
+      end
+    end
+    #If date != Invoice instance.created_at date then
+    # bad_ids << invoice_id
+    return invoice_ids - bad_ids
   end
 
   def merchant_invoices(merchant_id)
@@ -81,52 +108,7 @@ class Merchant
     invoice_ids = invoice_ids - bad_ids
   end
 
-  # def revenue
-  #   merchant_revenue = BigDecimal('0.00')
-  #   invoice_items = []
-  #   invoice_ids = []
-  #   temp = self.successful_invoices
-  #   if temp == []
-  #     return merchant_revenue
-  #   end
-  #   temp.each do |invoice|
-  #     invoice_ids << invoice.id
-  #   end
-  #   invoice_items = InvoiceItem.data
-  #   invoice_items.reject! {|i| !invoice_ids.include?(i.invoice_id)}
-  #   invoice_items.each do |invoice_item|
-  #     merchant_revenue += BigDecimal("#{invoice_item.unit_price.to_i*invoice_item.quantity.to_i}.00")
-  #   end
-  #   return merchant_revenue
-  # end
-
-  # def successful_invoices
-  #   ids = []
-  #   self.successful_transactions.each do |transaction|
-  #     ids << transaction.invoice_id
-  #   end
-  #   successes =  Invoice.data
-  #   successes.reject! {|i| !ids.include?(i.id)}
-  #   return successes
-  # end
-
-  # def successful_transactions
-  #   successes = []
-  #   if ((@id == nil) || (@id.to_i > 100))
-  #     return []
-  #   end
-  #   invoices = Invoice.find_all_by_merchant_id(self.id)
-  #   if invoices == []  
-  #     return successes
-  #   end
-  #   ids = []
-  #   invoices.each do |invoice|
-  #     ids << invoice.id
-  #   end
-  #   successes =  Transaction.data
-  #   successes.reject! {|i| !ids.include?(i.invoice_id)}
-  #   successes.select! {|i| i.result == "success"}
-  # end
+  
 
   ##########################################################
 

@@ -6,6 +6,28 @@ require 'minitest/pride'
 
 class MerchantTest < MiniTest::Unit::TestCase
 
+  def test_revenue_date_returns_total_revenue_for_date_across_all_merchants
+    SalesEngine.startup
+    total_rev1 = Merchant.revenue("2012-03-27 14:54:01 UTC")
+    total_rev2 = Merchant.revenue("2012-03-28 14:54:01 UTC")
+    assert_equal 190836805.0, total_rev1.to_f
+    assert_equal 1234, total_rev2.to_f
+  end
+
+  def test_hash_revenue_date_returns_the_total_revenue_for_that_merchant_for_invoice_date
+    SalesEngine.startup
+    merchant = Merchant.list_of_merchants[23]
+    mer_rev_normal = merchant.revenue
+    mer_rev = merchant.revenue("2012-03-27 14:54:01 UTC")
+    merchant2 = Merchant.list_of_merchants[42]
+    mer2_rev_normal = merchant2.revenue
+    mer2_rev = merchant2.revenue("2012-03-27 14:54:01 UTC")
+    assert_equal 933507.0, mer_rev.to_f
+    assert_equal 41312269.0, mer_rev_normal.to_f
+    assert_equal 1901835.0, mer2_rev.to_f
+    assert_equal 58292872.0, mer2_rev_normal.to_f
+  end
+
   def test_merchant_most_revenueX_returns_a_list_of_merchant_instances_sorted_by_revenue
     SalesEngine.startup
     list = Merchant.most_revenue(10)
@@ -21,9 +43,6 @@ class MerchantTest < MiniTest::Unit::TestCase
     assert_equal 91742486.0, merchant2.how_much_rev.to_f
     assert_equal 83149384.0, merchant3.how_much_rev.to_f
     assert_equal 82959718.0, merchant4.how_much_rev.to_f
-    # 10.times do |x|
-    #   assert list[x].how_much_rev >= list[(x+1)].how_much_rev
-    # end
   end
 
   def test_that_remove_bad_transactions_works
@@ -97,19 +116,7 @@ class MerchantTest < MiniTest::Unit::TestCase
 
   #######################################################################
 
-  # def test_that_merchant_revenue_returns_zero_if_no_merchant
-  #   SalesEngine.startup
-  #   merchant = Merchant.new({})
-  #   rev = BigDecimal('0')
-  #   assert_equal rev, merchant.revenue    
-  # end
 
-  # def test_if_successful_transactions_can_deal_with_no_merchant
-  #   SalesEngine.startup
-  #   merchant = Merchant.new({})
-  #   invoices = merchant.successful_invoices
-  #   assert_equal 0, invoices.size
-  # end
 
   def test_that_merchant_hash_revenue_returns_the_right_revenue
     SalesEngine.startup

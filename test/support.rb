@@ -1,4 +1,5 @@
 require 'simplecov'
+#Simplecov.add_filter 'test'
 Simplecov.start
 
 require 'minitest/spec'
