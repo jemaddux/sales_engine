@@ -188,9 +188,26 @@ class CustomerTest < MiniTest::Unit::TestCase
   end
 
   def test_invoices_instance_method_returns_correct_information
-    customer = Customer.new(:id => "3")
-    Invoice.make_invoices(true)
+    Customer.make_customers
+    Invoice.make_invoices
+    customer = Customer.find_by_id('11')
     invoices = customer.invoices
-    assert_equal "3", invoices[0].customer_id
+    assert_equal "48", invoices[0].id
+  end
+
+  def test_transactions_returns_an_array
+    Invoice.make_invoices
+    Transaction.make_transactions
+    Customer.make_customers
+    customer = Customer.find_by_id("3")
+    assert_kind_of Array, customer.transactions
+  end
+
+  def test_transactions_returns_an_array
+    Invoice.make_invoices
+    Transaction.make_transactions
+    Customer.make_customers
+    customer = Customer.find_by_id("2")
+    assert_equal 1, customer.transactions.count
   end
 end

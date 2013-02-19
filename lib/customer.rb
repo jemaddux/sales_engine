@@ -89,6 +89,20 @@ class Customer
     Invoice.find_all_by_customer_id(@id)
   end
 
+  def transactions
+    customer_invoices = invoices
+    if customer_invoices.nil?
+      puts "No transactions associated with this customer."
+    else
+      customer_transactions = []
+      customer_invoices.each do |invoice|
+        transaction = Transaction.find_by_invoice_id(invoice.id)
+        customer_transactions << transaction
+      end
+      customer_transactions
+    end
+  end
+
   # Initialize
 
   def initialize(input)#takes in a hash
