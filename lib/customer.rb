@@ -103,6 +103,28 @@ class Customer
     end
   end
 
+  def favorite_merchant
+
+    customer_invoices = invoices
+    if customer_invoices.nil?
+      puts "No merchants associated with this customer."
+    else
+      merchants = Hash.new(0)
+      customer_invoices.each do |invoice|
+        transactions = Transaction.find_by_invoice_id(invoice.id)
+        if transactions.result == "success"
+          value = 1
+        elsif transactions.result == "failed"
+          value = 0
+        end
+        merchants[invoice.merchant_id] += value
+      end
+      favorite_merchant_id = merchants.max_by { |id,quantity| quantity }[0]
+      Merchant.find_by_id(favorite_merchant_id)
+    end
+
+  end
+
   # Initialize
 
   def initialize(input)#takes in a hash

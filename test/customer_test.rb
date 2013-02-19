@@ -210,4 +210,22 @@ class CustomerTest < MiniTest::Unit::TestCase
     customer = Customer.find_by_id("2")
     assert_equal 1, customer.transactions.count
   end
+
+  def test_favorite_merchant_returns_an_instance_of_merchant
+    Invoice.make_invoices
+    Merchant.make_merchants
+    Customer.make_customers
+    Transaction.make_transactions
+    customer = Customer.find_by_id("2")
+    assert_kind_of Merchant, customer.favorite_merchant
+  end
+
+  def test_favorite_merchant_returns_the_correct_instance
+    Invoice.make_invoices
+    Merchant.make_merchants
+    Customer.make_customers
+    Transaction.make_transactions
+    customer = Customer.find_by_id("2")
+    assert_equal "Shields, Hirthe and Smith", customer.favorite_merchant.name
+  end
 end
