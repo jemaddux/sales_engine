@@ -3,6 +3,7 @@ SimpleCov.start
 require 'minitest/autorun'
 require "./lib/searching_mod"
 require './lib/invoice'
+require 'minitest/pride'
 
 class SearchDouble
   extend Searching

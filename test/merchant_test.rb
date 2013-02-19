@@ -2,12 +2,98 @@ require 'simplecov'
 SimpleCov.start
 require 'minitest/autorun'
 require "./lib/merchant"
+require 'minitest/pride'
 
 class MerchantTest < MiniTest::Unit::TestCase
+
+  # def test_merchant_most_revenueX_returns_a_list_of_merchant_instances_sorted_by_revenue
+  #   SalesEngine.startup
+  #   list = Merchant.most_revenue(10)
+  #   best_merchant = list[0]
+  #   merchant1 = list[1]
+  #   merchant2 = list[2]
+  #   merchant3 = list[3]
+  #   merchant4 = list[4]
+  #   assert_kind_of Array, list
+  #   assert_equal 52877464.0, best_merchant.how_much_rev.to_f
+  #   assert_equal 5000, merchant1.how_much_rev.to_f
+  #   assert_equal 5000, merchant2.how_much_rev.to_f
+  #   assert_equal 5000, merchant3.how_much_rev.to_f
+  #   assert_equal 5000, merchant4.how_much_rev.to_f
+  #   # 10.times do |x|
+  #   #   assert list[x].how_much_rev >= list[(x+1)].how_much_rev
+  #   # end
+  # end
+
+  def test_merchant_most_itemsX_returns_a_list_of_merchant_instances_sorted_by_num_of_items
+    SalesEngine.startup
+    list = Merchant.most_items(10)
+    best_merchant = list[0]
+    assert_kind_of Array, list
+    assert_equal 50, best_merchant.num_items
+    assert_equal 48, list[1].num_items
+    assert_equal 48, list[2].num_items
+    assert_equal 47, list[3].num_items
+  end
+
+  def test_merchant_instance_has_attr_accessor_num_items
+    SalesEngine.startup
+    merchants = Merchant.list_of_merchants
+    assert merchants[0].respond_to?(:num_items)
+    assert merchants[23].respond_to?(:num_items)
+    assert merchants[42].respond_to?(:num_items) 
+    assert merchants[64].respond_to?(:num_items)
+    assert merchants[78].respond_to?(:num_items)
+    assert merchants[99].respond_to?(:num_items)
+  end
+
+  def test_merchant_most_itemsX_returns_a_list_of_merchant_instances
+    SalesEngine.startup
+    list = Merchant.most_items(10)
+    list.each do |merchant|
+      assert_kind_of Merchant, merchant
+    end
+  end
+
+  def test_merchant_most_itemsX_returns_X_merchants
+    SalesEngine.startup
+    list = Merchant.most_items(10)
+    assert_equal 10, list.size
+    assert_kind_of Array, list
+  end
+
+  #######################################################################
+
+  def test_that_merchant_revenue_returns_zero_if_no_merchant
+    SalesEngine.startup
+    merchant = Merchant.new({})
+    rev = BigDecimal('0')
+    assert_equal rev, merchant.revenue    
+  end
+
+  def test_if_successful_transactions_can_deal_with_no_merchant
+    SalesEngine.startup
+    merchant = Merchant.new({})
+    invoices = merchant.successful_invoices
+    assert_equal 0, invoices.size
+  end
+
   def test_that_merchant_hash_revenue_returns_the_right_revenue
     SalesEngine.startup
     merchant = Merchant.list_of_merchants[23]
     assert_equal BigDecimal('41312269.00'), merchant.revenue
+  end
+
+  def test_that_merchant_hash_revenue_returns_the_right_revenue2
+    SalesEngine.startup
+    mer = Merchant.list_of_merchants[3]
+    assert_equal 55805522.0, mer.revenue.to_f
+  end
+
+  def test_that_merchant_hash_revenue_returns_the_right_revenue4
+    SalesEngine.startup
+    merch = Merchant.list_of_merchants[73]
+    assert_equal 47447308.0, merch.revenue.to_f
   end
 
   def test_that_merchant_hash_revenue_returns_a_big_decimal
@@ -38,12 +124,6 @@ class MerchantTest < MiniTest::Unit::TestCase
     assert_equal Array, invoice_instances.class
     assert_equal 45, invoice_instances.size
     assert_equal Invoice, invoice_instances[3].class
-  end
-
-	def test_that_most_revenue_x_returns_an_array_x_long
-    returned_array = Merchant.most_revenue(5)
-    assert_equal Array, returned_array.class
-    assert_equal 5, returned_array.length
   end
 
 #################################################################

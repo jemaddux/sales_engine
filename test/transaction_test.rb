@@ -3,6 +3,7 @@ SimpleCov.start
 require 'minitest/autorun'
 require "./lib/transaction"
 require "time"
+require 'minitest/pride'
 
 class TransactionTest < MiniTest::Unit::TestCase
   def test_it_exists

@@ -3,6 +3,7 @@ SimpleCov.start
 require 'minitest/autorun'
 require "./lib/customer"
 require "time"
+require 'minitest/pride'
 
 class CustomerTest < MiniTest::Unit::TestCase
 	def test_it_exists
