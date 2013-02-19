@@ -3,6 +3,7 @@ SimpleCov.start
 require 'minitest/autorun'
 require "./lib/get_csv_mod"
 require 'csv'
+require 'minitest/pride'
 require './lib/invoice'
 
 class GetCSVTest < MiniTest::Unit::TestCase

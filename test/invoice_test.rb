@@ -3,6 +3,7 @@ SimpleCov.start
 require 'minitest/autorun'
 require "./lib/invoice"
 require "./lib/invoice_item"
+require 'minitest/pride'
 
 class InvoiceTest < MiniTest::Unit::TestCase
 	def test_it_exists

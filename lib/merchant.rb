@@ -9,21 +9,45 @@ class Merchant
   extend Relationships
   extend Searching
 
-  attr_accessor :id, :name, :created_at, :updated_at, :items
+  attr_accessor :id, :name, :created_at, :updated_at, :items, :num_items, :how_much_rev, :invoices2
 
-  def self.most_revenue(num)
-    rev_array = []
-    num.times do |x|
-      rev_array << x
+  def get_rev(merch_id)
+    merch_id
+  end
+
+  # def self.most_revenue(x)
+  #   merch_list = self.data
+  #   merch_list.each do |merchant|
+  #     merchant.how_much_rev = merchant.revenue
+  #   end
+  #   merch_list.sort! do |a, b|
+  #     a.how_much_rev <=> b.how_much_rev
+  #   end
+  #   merch_list.reverse!
+  #   return merch_list[0..(x-1)]
+  # end
+
+  def self.most_items(x)
+    merch_list = self.data
+    merch_list.each do |merchant|
+      merchant.num_items = merchant.items.size
     end
-    rev_array
+    merch_list.sort! do |a, b|
+      a.num_items <=> b.num_items
+    end
+    merch_list.reverse!
+    return merch_list[0..(x-1)]
   end
 
   def revenue
     merchant_revenue = BigDecimal('0.00')
     invoice_items = []
     invoice_ids = []
-    successful_invoices.each do |invoice|
+    temp = self.successful_invoices
+    if temp == []
+      return merchant_revenue
+    end
+    temp.each do |invoice|
       invoice_ids << invoice.id
     end
     invoice_items = InvoiceItem.data
@@ -36,7 +60,7 @@ class Merchant
 
   def successful_invoices
     ids = []
-    successful_transactions.each do |transaction|
+    self.successful_transactions.each do |transaction|
       ids << transaction.invoice_id
     end
     successes =  Invoice.data
@@ -45,8 +69,14 @@ class Merchant
   end
 
   def successful_transactions
-    invoices = Invoice.find_all_by_merchant_id(@id)
     successes = []
+    if ((@id == nil) || (@id.to_i > 100))
+      return []
+    end
+    invoices = Invoice.find_all_by_merchant_id(self.id)
+    if invoices == []  
+      return successes
+    end
     ids = []
     invoices.each do |invoice|
       ids << invoice.id
@@ -138,10 +168,15 @@ class Merchant
     @created_at = merchant[:created_at]
     @updated_at = merchant[:updated_at]
     @items = []
+    @num_items = 0
+    @how_much_rev = 0
+    # @invoices2 = []
+    # @invoice_items = []
+    # @transactions = [1,2,3,4]
   end
 
   def self.add_relationships
-    @list_of_merchants.each do |merchant|
+    self.list_of_merchants.each do |merchant|
       merchant.items = get_items(merchant.id)
     end
   end

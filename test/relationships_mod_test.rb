@@ -4,6 +4,7 @@ require 'minitest/autorun'
 require './lib/relationships_mod'
 require './lib/merchant'
 require './lib/item'
+require 'minitest/pride'
 
 class RelationshipModuleTest < MiniTest::Unit::TestCase
   
