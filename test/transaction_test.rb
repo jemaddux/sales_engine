@@ -204,4 +204,5 @@ class TransactionTest < MiniTest::Unit::TestCase
     Transaction.make_transactions(true)
     assert_kind_of Array, Transaction.successful_transaction_invoice_ids
   end
+
 end

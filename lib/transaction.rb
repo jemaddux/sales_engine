@@ -128,18 +128,16 @@ class Transaction
   end
 
   def self.add_transaction(input)
-    # credit_card_number: "4444333322221111", credit_card_expiration: "10/13", result: "success"
-    # id,invoice_id,credit_card_number,credit_card_expiration_date,result,created_at,updated_at
     transaction_data = {
-      :id => new_invoice_id, 
+      :id => new_transaction_id, 
       :invoice_id => input[:invoice_id], 
       :credit_card_number => input[:credit_card_number], 
-      :credit_card_expiration_date => input[:credit_card_expiration_date], 
+      :credit_card_expiration_date => input[:credit_card_expiration], 
       :result => input[:result], 
       :created_at => current_time,
-      :updated_at => updated_at
+      :updated_at => current_time
     }
-    Transaction.new(transaction_data)
+    Transaction.new(transaction_data).inspect
   end
 
   # Initialize
@@ -152,6 +150,5 @@ class Transaction
     @credit_card_number = input[:credit_card_number]
     @credit_card_expiration_date = input[:credit_card_expiration_date]
     @result = input[:result]
-    @invoice = Invoice.new({})
   end
 end
