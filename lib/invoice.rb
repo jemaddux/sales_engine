@@ -114,15 +114,36 @@ class Invoice
   def customer
     Customer.find_by_id(@customer_id)
   end
+
+  def self.current_time
+    time = Time.now.utc
+    time.to_s
+  end
+
+  def self.new_invoice_id
+    last_invoice = @list_of_invoices[-1]
+    last_invoice_id = last_invoice.id
+    new_invoice_id = last_invoice_id.to_i + 1
+    new_invoice_id.to_s
+  end
+
+  def self.add_invoice(input)
+    invoice_data = {
+      :id => new_invoice_id, 
+      :customer_id => input[:customer].id, 
+      :merchant_id => input[:merchant].id, 
+      :status => input[:status], 
+      :created_at => current_time, 
+      :updated_at => current_time 
+    }
+    Invoice.new(invoice_data)
+  end
+
+  def self.create(input)
+    new_invoice = add_invoice(input)
+    @list_of_invoices << new_invoice
+    item_collection = InvoiceItem.collect_invoice_items(input[:items])
+    invoice_id = @list_of_invoices[-1].id
+    InvoiceItem.add_invoice_items(item_collection, invoice_id)
+  end
 end
-
-
-
-
-
-
-
-
-
-
-
