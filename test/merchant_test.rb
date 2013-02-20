@@ -8,6 +8,24 @@ require_relative 'support'
 
 class MerchantTest < MiniTest::Unit::TestCase
 
+  def test_hash_favorite_customer_customer_who_has_most_successful_transactions
+    SalesEngine.startup
+    merchant = Merchant.list_of_merchants[84]
+    favorite_customer = merchant.favorite_customer
+    assert_equal Customer, favorite_customer.class
+    assert_equal "715", favorite_customer.id
+    assert_equal "Hailey", favorite_customer.first_name
+  end
+
+  def test_hash_customers_with_pending_invoices_returns_array_of_customer_instances
+    SalesEngine.startup
+    merchant = Merchant.list_of_merchants[95]
+    customers = merchant.customers_with_pending_invoices
+    assert_equal Array, customers.class
+    assert_equal Customer, customers[0].class
+    assert_equal "764", customers[0].id
+  end
+
   def test_revenue_date_returns_total_revenue_for_date_across_all_merchants
     SalesEngine.startup
     total_rev1 = Merchant.revenue("2012-03-27 14:54:01 UTC")
@@ -51,15 +69,9 @@ class MerchantTest < MiniTest::Unit::TestCase
     SalesEngine.startup
     merchant = Merchant.list_of_merchants[23]
     mer_ids = merchant.merchant_invoices(merchant.id)
-    new_mer_ids = merchant.remove_bad_transactions(mer_ids, merchant.id)
-    assert_equal 37, new_mer_ids.size
-    assert_equal "179", new_mer_ids[0]
-    assert_equal "187", new_mer_ids[1]
-    assert_equal "381", new_mer_ids[2]
-    assert_equal "517", new_mer_ids[3]
-    assert_equal "683", new_mer_ids[5]
-    assert_equal "1218", new_mer_ids[12]
-    assert_equal "4775", new_mer_ids[36]
+    new_mer_ids = merchant.bad_transactions(mer_ids, merchant.id)
+    assert_equal 1, new_mer_ids.size
+    assert_equal "4769", new_mer_ids[0]
   end
 
   def test_that_merchant_invoices_works
@@ -206,16 +218,6 @@ class MerchantTest < MiniTest::Unit::TestCase
     merchant_list = Merchant.make_merchants(true)
     assert_equal Array, merchant_list.class
   end
-
-  #def test_random_merchant_method_returns_a_random_instance
-
-  #def test_find_by_x_match_returns_a_single_instance
-
-  #def test_find_all_by_x_match_returns_all_instances_as_an_array
-
-  #def test_items_method_returns_a_collection_of_items_for_the_merchant
-
-  #def test_invoices_returns_a_collection_of_invoice_instances_for_merchant
 
   def test_merchant_returns_an_array_when_items_is_called_on_an_instance
     Merchant.make_merchants

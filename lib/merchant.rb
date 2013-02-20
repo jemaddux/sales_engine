@@ -12,12 +12,58 @@ class Merchant
   attr_accessor :id, :name, :created_at, :updated_at, :items, :num_items,
                 :how_much_rev, :invoice_ids
 
-  ##############################################
+  def favorite_customer
+    invoices = Invoice.find_all_by_merchant_id(self.id)
+    invoice_ids = []
+    invoices.each do |invoice|
+      invoice_ids << invoice.id
+    end
+    good_invoice_ids = invoice_ids - bad_transactions(invoice_ids, self.id)
+    good_invoices = []
+    good_invoice_ids.each do |id|
+      good_invoices << Invoice.find_by_id(id)
+    end
+    good_customer_ids = []
+    good_invoices.each do |invoice|
+      good_customer_ids << Customer.find_by_id(invoice.customer_id).id
+    end
+    best_customer_id = good_customer_ids.group_by{|i| i}.max{|x,y| x[1].length <=> y[1].length}[0]
+
+    return best_customer = Customer.find_by_id(best_customer_id)
+  end
+
+  # def bad_invoices(invoice_ids, merchant_id)
+  #   bad_invoices_array = []
+  #   bad_ids = []
+  #   bad_ids = bad_transactions(invoice_ids, merchant_id) #=> [] of bad ids
+
+  # end
+
+  def customers_with_pending_invoices
+    self.invoice_ids = merchant_invoices(self.id)
+    bad_transaction_ids = bad_transactions(self.invoice_ids, self.id)
+    bad_transactions = []
+    bad_transaction_ids.each do |transaction_id|
+      bad_transactions << Transaction.find_by_id(transaction_id)
+    end
+    bad_customer_ids = []
+    bad_customers = []
+    bad_transactions.each do |transaction|
+      #find bad invoice ids and <<
+      bad_customer_ids << Invoice.find_by_id(transaction.invoice_id).customer_id
+    end
+    bad_customer_ids.each do |id|
+      #find bad customers and << into bad_customers
+      bad_customers << Customer.find_by_id(id)
+    end
+    return bad_customers
+  end
+
   def self.revenue(date)
     temp = Merchant.list_of_merchants
     total_rev = 0
     temp.each do |merchant|
-      total_rev += merchant.revenue(date) ######################
+      total_rev += merchant.revenue(date)
     end
     return total_rev
     #for each merchant call merchant.revenue(date)
@@ -53,7 +99,7 @@ class Merchant
 
   def revenue(date="all")
     self.invoice_ids = merchant_invoices(self.id)
-    self.invoice_ids = remove_bad_transactions(self.invoice_ids, self.id)
+    self.invoice_ids = self.invoice_ids - bad_transactions(self.invoice_ids, self.id)
     if date != "all"
       self.invoice_ids = remove_dates(self.invoice_ids, self.id, date)
     end
@@ -96,7 +142,7 @@ class Merchant
     return invoice_ids_mer
   end
 
-  def remove_bad_transactions(invoice_ids, merchant_id)
+  def bad_transactions(invoice_ids, merchant_id)
     bad_ids = []
     invoice_ids.each do |id|
       trans = Transaction.find_all_by_invoice_id(id)
@@ -105,7 +151,7 @@ class Merchant
         bad_ids << id
       end
     end
-    invoice_ids = invoice_ids - bad_ids
+    bad_ids
   end
 
   

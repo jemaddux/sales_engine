@@ -1,5 +1,5 @@
-#require 'simplecov'
-#SimpleCov.start
+require 'simplecov'
+SimpleCov.start
 #require 'minitest/autorun'
 require "./lib/searching_mod"
 require './lib/invoice'
