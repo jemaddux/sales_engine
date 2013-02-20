@@ -132,7 +132,7 @@ module SalesEngine
       @id = input[:id].to_i
       @first_name = input[:first_name]
       @last_name = input[:last_name]
-      @created_at = input[:created_at]
+      @created_at = Date.parse(input[:created_at])
       @updated_at = input[:updated_at]
       @invoices = []
     end

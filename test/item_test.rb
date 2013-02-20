@@ -129,8 +129,8 @@ module SalesEngine
 
     def test_item_find_by_id_returns_the_correct_id
       Item.make_items(true)#true for testing, false by default
-      item = Item.find_by_id("3")
-      assert_equal "3", item.id
+      item = Item.find_by_id(3)
+      assert_equal 3, item.id
     end  
 
     def test_item_find_by_created_at_returns_the_correct_created_at
@@ -155,7 +155,7 @@ module SalesEngine
 
     def test_item_find_all_by_id_returns_the_count
       Item.make_items(true)#true for testing, false by default
-      items = Item.find_all_by_id("3")
+      items = Item.find_all_by_id(3)
       assert_equal 1, items.count
     end  
 
@@ -181,7 +181,7 @@ module SalesEngine
       item = Item.new({:id => "539"})
       InvoiceItem.make_invoice_items(true)#true for testing, false by default
       invoice_items = item.invoice_items
-      assert_equal "539", invoice_items[0].item_id
+      assert_equal 539, invoice_items[0].item_id
     end
 
     def test_merchant_instance_method_returns_an_instance
@@ -194,7 +194,7 @@ module SalesEngine
       item = Item.new({:merchant_id => "2"})
       merchants = Merchant.make_merchants(true)
       merchant = item.merchant
-      assert_equal "2", merchant.id
+      assert_equal 2, merchant.id
     end
 
     def test_get_item_revenues_returns_a_hash
@@ -250,7 +250,7 @@ module SalesEngine
       InvoiceItem.make_invoice_items
       Invoice.make_invoices
       Transaction.make_transactions
-      item = Item.find_by_id("965")
+      item = Item.find_by_id(965)
       assert_kind_of Date, item.best_day
     end
 
@@ -259,7 +259,7 @@ module SalesEngine
       InvoiceItem.make_invoice_items
       Invoice.make_invoices
       Transaction.make_transactions
-      item = Item.find_by_id("965")
+      item = Item.find_by_id(965)
       date = Date.parse("Sat, 24 Mar 2012")
       assert_equal date, item.best_day
     end

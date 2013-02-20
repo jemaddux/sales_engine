@@ -20,22 +20,22 @@ module SalesEngine
 
     def test_that_we_can_get_an_id_from_an_instance
       invoice_item = InvoiceItem.new(:id => "1")
-      assert_equal "1", invoice_item.id
+      assert_equal 1, invoice_item.id
     end
 
     def test_that_we_can_get_an_item_id_from_an_instance
       invoice_item = InvoiceItem.new(:item_id => "3")
-      assert_equal "3", invoice_item.item_id
+      assert_equal 3, invoice_item.item_id
     end
 
     def test_that_we_can_get_an_invoice_id_from_an_instance
       invoice_item = InvoiceItem.new(:invoice_id => "25")
-      assert_equal "25", invoice_item.invoice_id
+      assert_equal 25, invoice_item.invoice_id
     end
 
     def test_that_we_can_get_a_quantity_from_an_instance
       invoice_item = InvoiceItem.new(:quantity => "5")
-      assert_equal "5", invoice_item.quantity
+      assert_equal 5, invoice_item.quantity
     end
 
     def test_that_we_can_get_a_unit_price_from_an_instance
@@ -120,8 +120,8 @@ module SalesEngine
 
     def test_invoice_items_find_by_id_returns_the_correct_id
       InvoiceItem.make_invoice_items(true)#true for testing, false by default
-      invoice_items = InvoiceItem.find_by_id("3")
-      assert_equal "3", invoice_items.id
+      invoice_items = InvoiceItem.find_by_id(3)
+      assert_equal 3, invoice_items.id
     end  
 
     def test_invoice_items_find_by_updated_at_returns_the_correct_time
@@ -134,7 +134,7 @@ module SalesEngine
 
     def test_invoice_item_find_all_by_id_returns_the_count
       InvoiceItem.make_invoice_items(true)#true for testing, false by default
-      invoice_items = InvoiceItem.find_all_by_id("3")
+      invoice_items = InvoiceItem.find_all_by_id(3)
       assert_equal 1, invoice_items.count
     end  
 
@@ -148,32 +148,32 @@ module SalesEngine
 
     def test_that_invoice_item_find_by_item_id_returns_the_correct_item
       InvoiceItem.make_invoice_items(true)#true for testing, false by default
-      invoice_item = InvoiceItem.find_by_item_id("1832")
-      assert_equal "1832", invoice_item.item_id
+      invoice_item = InvoiceItem.find_by_item_id(1832)
+      assert_equal 1832, invoice_item.item_id
     end
 
     def test_that_invoice_item_find_by_invoice_id_returns_the_correct_item
       InvoiceItem.make_invoice_items(true)#true for testing, false by default
-      invoice_item = InvoiceItem.find_by_invoice_id("2")
-      assert_equal "2", invoice_item.invoice_id
+      invoice_item = InvoiceItem.find_by_invoice_id(2)
+      assert_equal 2, invoice_item.invoice_id
     end
 
     def test_that_invoice_item_find_by_quantity_returns_the_correct_item
       InvoiceItem.make_invoice_items(true)#true for testing, false by default
       invoice_item = InvoiceItem.find_by_quantity("6")
-      assert_equal "8", invoice_item.id
+      assert_equal 8, invoice_item.id
     end
 
     def test_that_invoice_item_find_by_unit_price_returns_the_correct_item
       InvoiceItem.make_invoice_items(true)#true for testing, false by default
       invoice_item = InvoiceItem.find_by_unit_price("13635")
-      assert_equal "1", invoice_item.invoice_id
+      assert_equal 1, invoice_item.invoice_id
     end
 
     def test_that_invoice_item_find_by_created_at_returns_the_correct_item
       InvoiceItem.make_invoice_items(true)#true for testing, false by default
       invoice_item = InvoiceItem.find_by_created_at("2012-03-27 14:54:09 UTC")
-      assert_equal "1", invoice_item.invoice_id
+      assert_equal 1, invoice_item.invoice_id
     end
 
     def test_that_item_instance_method_returns_an_instance
@@ -186,7 +186,7 @@ module SalesEngine
       invoice_item = InvoiceItem.new(:item_id => "7")
       Item.make_items(true)
       item = invoice_item.item
-      assert_equal "7", item.id
+      assert_equal 7, item.id
     end
 
     def test_that_invoice_instance_method_returns_an_instance
@@ -199,7 +199,7 @@ module SalesEngine
       invoice_item = InvoiceItem.new(:invoice_id => "6")
       Invoice.make_invoices(true)
       invoice = invoice_item.invoice
-      assert_equal "6", invoice.id
+      assert_equal 6, invoice.id
     end
   end
 end

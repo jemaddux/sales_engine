@@ -51,7 +51,7 @@ module SalesEngine
     end
 
     def self.find_by_unit_price(match)
-      find_by("unit_price", match)
+      find_by("unit_price", match.to_s)
     end
 
     def self.find_by_created_at(match)
@@ -85,7 +85,7 @@ module SalesEngine
     end
 
     def self.find_all_by_quantity(match)
-      find_all_by("quantity", match)
+      find_all_by("quantity", match.to_s)
     end
 
     def self.find_all_by_unit_price(match)
@@ -121,9 +121,9 @@ module SalesEngine
     # Initialize
 
     def initialize(input)#takes in a hash
-      @id = input[:id]
-      @item_id = input[:item_id]
-      @invoice_id = input[:invoice_id]
+      @id = input[:id].to_i
+      @item_id = input[:item_id].to_i
+      @invoice_id = input[:invoice_id].to_i
       @quantity = input[:quantity]
       @unit_price = input[:unit_price]
       @created_at = input[:created_at]

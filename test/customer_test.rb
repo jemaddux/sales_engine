@@ -136,7 +136,7 @@ module SalesEngine
     def test_customer_find_by_id_returns_the_correct_id
       Customer.make_customers(true)#true for testing, false by default
       customer = Customer.find_by_id("3")
-      assert_equal "3", customer.id
+      assert_equal 3, customer.id
     end  
 
     def test_customer_find_by_created_at_returns_the_correct_created_at
@@ -167,7 +167,7 @@ module SalesEngine
 
     def test_customer_find_all_by_id_returns_the_count
       Customer.make_customers(true)#true for testing, false by default
-      customers = Customer.find_all_by_id("3")
+      customers = Customer.find_all_by_id(3)
       assert_equal 5, customers.count
     end  
 

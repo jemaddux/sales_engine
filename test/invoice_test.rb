@@ -21,17 +21,17 @@ module SalesEngine
 
     def test_that_we_can_get_an_invoice_id_from_an_instance
       invoice = Invoice.new(:id => "1")
-      assert_equal "1", invoice.id
+      assert_equal 1, invoice.id
     end
 
     def test_that_we_can_get_an_invoice_customer_id_from_an_instance
       invoice = Invoice.new(:customer_id => "3")
-      assert_equal "3", invoice.customer_id
+      assert_equal 3, invoice.customer_id
     end
 
     def test_that_we_can_get_a_merchant_id_from_an_instance
       invoice = Invoice.new(:merchant_id => "25")
-      assert_equal "25", invoice.merchant_id
+      assert_equal 25, invoice.merchant_id
     end
 
     def test_that_we_can_get_a_status_from_an_instance
@@ -100,8 +100,8 @@ module SalesEngine
 
     def test_invoice_find_by_id_returns_the_correct_id
       Invoice.make_invoices(true)#true for testing, false by default
-      invoice = Invoice.find_by_id("3")
-      assert_equal "3", invoice.id
+      invoice = Invoice.find_by_id(3)
+      assert_equal 3, invoice.id
     end  
 
     def test_invoice_find_by_created_at_returns_the_correct_created_at
@@ -120,7 +120,7 @@ module SalesEngine
 
     def test_invoice_find_all_by_id_returns_the_count
       Invoice.make_invoices(true)#true for testing, false by default
-      invoices = Invoice.find_all_by_id("3")
+      invoices = Invoice.find_all_by_id(3)
       assert_equal 2, invoices.count
     end  
 
@@ -150,7 +150,7 @@ module SalesEngine
       Transaction.make_transactions(true)
       invoice = Invoice.list_of_invoices[0]
       assert_equal Array, invoice.transactions.class
-      assert_equal "1", invoice.transactions[0].id
+      assert_equal 1, invoice.transactions[0].id
       assert_equal "4654405418249632", invoice.transactions[0].credit_card_number
     end
 
@@ -166,7 +166,7 @@ module SalesEngine
       InvoiceItem.make_invoice_items(true)
       invoice = Invoice.list_of_invoices[0]
       assert_equal Array, invoice.invoice_items.class
-      assert_equal "1", invoice.invoice_items[0].id
+      assert_equal 1, invoice.invoice_items[0].id
     end
 
     def test_invoice_hash_items_returns_an_array
@@ -183,7 +183,7 @@ module SalesEngine
       InvoiceItem.make_invoice_items
       invoice = Invoice.list_of_invoices[0]
       assert_equal Array, invoice.items.class
-      assert_equal "539", invoice.items[0].id
+      assert_equal 539, invoice.items[0].id
     end
 
     def test_invoice_hash_customer_returns_an_instance_of_the_customer_class
@@ -198,7 +198,7 @@ module SalesEngine
       Customer.make_customers
       invoice = Invoice.list_of_invoices[75]
       customer = invoice.customer
-      assert_equal "15", customer.id
+      assert_equal 15, customer.id
     end
 
     def test_create_takes_a_hash_of_data_and_makes_new_objects
@@ -206,11 +206,11 @@ module SalesEngine
       Customer.make_customers
       Merchant.make_merchants
       Transaction.make_transactions
-      customer = Customer.find_by_id("5")
-      merchant = Merchant.find_by_id("5")
-      item1 = Item.find_by_id("6")
-      item2 = Item.find_by_id("7")
-      item3 = Item.find_by_id("6")
+      customer = Customer.find_by_id(5)
+      merchant = Merchant.find_by_id(5)
+      item1 = Item.find_by_id(6)
+      item2 = Item.find_by_id(7)
+      item3 = Item.find_by_id(6)
 
       invoice = Invoice.create(customer: customer, merchant: merchant, status: "shipped", items: [item1, item2, item3])
 

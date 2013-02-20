@@ -176,12 +176,12 @@ module SalesEngine
     # Initialize
 
     def initialize(input)#takes in a hash
-      @id = input[:id]
+      @id = input[:id].to_i
       @name = input[:name]
       @created_at = input[:created_at]
       @updated_at = input[:updated_at]
       @description = input[:description]
-      @merchant_id = input[:merchant_id]
+      @merchant_id = input[:merchant_id].to_i
       @unit_price = input[:unit_price]
     end
   end

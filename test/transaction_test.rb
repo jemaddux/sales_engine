@@ -21,12 +21,12 @@ module SalesEngine
 
     def test_transaction_has_id
       transaction = Transaction.new({id: "4"})
-      assert_equal "4", transaction.id
+      assert_equal 4, transaction.id
     end
 
     def test_transaction_has_invoice_id
       transaction = Transaction.new({invoice_id: "42"})
-      assert_equal "42", transaction.invoice_id
+      assert_equal 42, transaction.invoice_id
     end
 
     def test_transaction_has_credit_card_number
@@ -61,7 +61,7 @@ module SalesEngine
     def test_can_create_a_transaction_with_the_right_id
       Transaction.make_transactions(true)#true for testing, false by default
       @list_of_transactions = Transaction.list_of_transactions
-      assert_equal "1", @list_of_transactions[0].id
+      assert_equal 1, @list_of_transactions[0].id
     end
 
     def test_that_calling_invoice_on_an_instance_of_transaction_returns_an_instance_of_invoice
@@ -140,8 +140,8 @@ module SalesEngine
 
     def test_transaction_find_by_id_returns_the_correct_id
       Transaction.make_transactions(true)#true for testing, false by default
-      transaction = Transaction.find_by_id("3")
-      assert_equal "3", transaction.id
+      transaction = Transaction.find_by_id(3)
+      assert_equal 3, transaction.id
     end  
 
     def test_transaction_find_by_created_at_returns_the_correct_created_at
@@ -160,7 +160,7 @@ module SalesEngine
 
     def test_transaction_find_all_by_id_returns_the_count
       Transaction.make_transactions(true)#true for testing, false by default
-      transactions = Transaction.find_all_by_id("3")
+      transactions = Transaction.find_all_by_id(3)
       assert_equal 1, transactions.count
     end  
 
@@ -177,16 +177,16 @@ module SalesEngine
     end
 
     def test_invoice_instance_method_returns_an_instance
-      transaction = Transaction.new({:invoice_id => "7"})
+      transaction = Transaction.new({:invoice_id => 7})
       invoices = Invoice.make_invoices(true)
       assert_kind_of Invoice, transaction.invoice
     end
 
     def test_invoice_instance_method_returns_the_right_instance
-      transaction = Transaction.new({:invoice_id => "7"})
+      transaction = Transaction.new({:invoice_id => 7})
       invoices = Invoice.make_invoices(true)
       invoice = transaction.invoice
-      assert_equal "7", invoice.id
+      assert_equal 7, invoice.id
     end
 
     def test_successful_transactions_returns_an_array

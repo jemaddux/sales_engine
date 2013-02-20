@@ -14,7 +14,7 @@ module SalesEngine
       merchant = Merchant.list_of_merchants[84]
       favorite_customer = merchant.favorite_customer
       assert_equal Customer, favorite_customer.class
-      assert_equal "715", favorite_customer.id
+      assert_equal 715, favorite_customer.id
       assert_equal "Hailey", favorite_customer.first_name
     end
 
@@ -25,7 +25,7 @@ module SalesEngine
       customer = customer_list[0]
       assert_equal Array, customer_list.class
       assert_equal Customer, customer.class
-      assert_equal "764", customer.id
+      assert_equal 764, customer.id
     end
 
     def test_revenue_date_returns_total_revenue_for_date_across_all_merchants
@@ -73,7 +73,7 @@ module SalesEngine
       mer_ids = merchant.merchant_invoices(merchant.id)
       new_mer_ids = merchant.bad_transactions(mer_ids, merchant.id)
       assert_equal 1, new_mer_ids.size
-      assert_equal "4769", new_mer_ids[0]
+      assert_equal 4769, new_mer_ids[0]
     end
 
     def test_that_merchant_invoices_works
@@ -82,13 +82,13 @@ module SalesEngine
       mer_ids = merchant.merchant_invoices(merchant.id)
       num_ids = mer_ids.size
       assert_equal 38, num_ids
-      assert_equal "179", mer_ids[0]
-      assert_equal "187", mer_ids[1]
-      assert_equal "381", mer_ids[2]
-      assert_equal "517", mer_ids[3]
-      assert_equal "683", mer_ids[5]
-      assert_equal "1218", mer_ids[12]
-      assert_equal "4775", mer_ids[37]
+      assert_equal 179, mer_ids[0]
+      assert_equal 187, mer_ids[1]
+      assert_equal 381, mer_ids[2]
+      assert_equal 517, mer_ids[3]
+      assert_equal 683, mer_ids[5]
+      assert_equal 1218, mer_ids[12]
+      assert_equal 4775, mer_ids[37]
     end
 
   ############################################################
@@ -186,7 +186,7 @@ module SalesEngine
 
     def test_that_we_can_get_a_merchant_id_from_an_instance
       merchant = Merchant.new(:id => "1")
-      assert_equal "1", merchant.id
+      assert_equal 1, merchant.id
     end
 
     def test_that_we_can_get_a_merchant_name_from_an_instance
@@ -320,8 +320,8 @@ module SalesEngine
 
     def test_merchant_find_by_id_returns_the_correct_id
       Merchant.make_merchants(true)#true for testing, false by default
-      merchant = Merchant.find_by_id("3")
-      assert_equal "3", merchant.id
+      merchant = Merchant.find_by_id(3)
+      assert_equal 3, merchant.id
     end  
 
     def test_merchant_find_by_created_at_returns_the_correct_created_at
@@ -346,7 +346,7 @@ module SalesEngine
 
     def test_merchant_find_all_by_id_returns_the_count
       Merchant.make_merchants(true)#true for testing, false by default
-      merchants = Merchant.find_all_by_id("3")
+      merchants = Merchant.find_all_by_id(3)
       assert_equal 1, merchants.count
     end  
 

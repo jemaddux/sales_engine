@@ -232,7 +232,7 @@ module SalesEngine
     # Initialize
 
     def initialize(merchant={})
-      @id = merchant[:id]
+      @id = merchant[:id].to_i
       @name = merchant[:name]
       @created_at = merchant[:created_at]
       @updated_at = merchant[:updated_at]
@@ -245,8 +245,8 @@ module SalesEngine
     end
 
     def self.add_relationships
-      self.list_of_merchants.each do |merchant|
-        merchant.items = get_items(merchant.id)
+      @list_of_merchants.each do |merchant|
+        merchant.items = Item.find_all_by_merchant_id(merchant.id)
       end
     end
 

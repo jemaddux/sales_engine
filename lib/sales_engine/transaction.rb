@@ -145,10 +145,10 @@ module SalesEngine
     # Initialize
 
     def initialize(input)#takes in a hash
-      @id = input[:id]
+      @id = input[:id].to_i
       @created_at = input[:created_at]
       @updated_at = input[:updated_at]
-      @invoice_id = input[:invoice_id]
+      @invoice_id = input[:invoice_id].to_i
       @credit_card_number = input[:credit_card_number]
       @credit_card_expiration_date = input[:credit_card_expiration_date]
       @result = input[:result]
