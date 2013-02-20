@@ -8,24 +8,11 @@ require_relative 'support'
 
 module SalesEngine
   class CustomerTest < MiniTest::Unit::TestCase
-  	def test_it_exists
-  		customer = Customer.new({})
-  		assert_kind_of Customer, customer
-  	end
 
   	def test_get_csv_loads_data
   		customer_file = "./test/sample/customers.csv"
   		file_contents = Customer.get_csv(customer_file)
   		assert_operator file_contents.size, :>= , 5
-  	end
-
-  	def test_customer_has_first_name
-      time_obj = Date.now
-  		customer = Customer.new({first_name: "Jimmy", last_name: "Wales", created_at: time_obj, updated_at: time_obj})
-  		assert_equal "Jimmy", customer.first_name
-      assert_equal "Wales", customer.last_name
-      assert_equal time_obj, customer.created_at
-      assert_equal time_obj, customer.updated_at
   	end
 
   	def test_can_create_an_array_of_customers_from_sample_customers_csv
@@ -164,12 +151,6 @@ module SalesEngine
       customers = Customer.find_all_by_updated_at("2012-03-27 14:54:09 UTC")
       assert_equal 1, customers.count
     end  
-
-    def test_invoices_instance_method_returns_an_array
-      customer = Customer.new(:id => "3")
-      Invoice.make_invoices(true)
-      assert_kind_of Array, customer.invoices
-    end
 
     def test_invoices_instance_method_returns_correct_information
       Customer.make_customers

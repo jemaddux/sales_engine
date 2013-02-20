@@ -94,7 +94,7 @@ module SalesEngine
       merch_list.sort! do |a, b|
         a.num_items <=> b.num_items
       end
-      #merch_list.reverse!
+      merch_list.reverse!
       return merch_list[0..(x-1)]
     end
 
@@ -246,7 +246,7 @@ module SalesEngine
 
     def self.add_relationships
       @list_of_merchants.each do |merchant|
-        merchant.items = Item.find_all_by_merchant_id(merchant.id)
+        merchant.items = get_items(merchant.id)
       end
     end
 
