@@ -8,8 +8,15 @@ module SalesEngine
     extend Searching
     extend Relationships
 
-    attr_accessor :id, :item_id, :invoice_id, :quantity, :unit_price,
-    :created_at, :updated_at, :item, :invoice
+    attr_accessor :id,
+                  :item_id,
+                  :invoice_id,
+                  :quantity,
+                  :unit_price,
+                  :created_at,
+                  :updated_at,
+                  :item,
+                  :invoice
 
     def self.make_invoice_items(testing=false)
       invoice_item_file = "./data/invoice_items.csv"

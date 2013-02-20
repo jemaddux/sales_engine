@@ -9,8 +9,12 @@ module SalesEngine
     extend GetCSV
     extend Searching
 
-    attr_accessor :id, :customer_id, :merchant_id, :status, :created_at,
-     :updated_at
+    attr_accessor :id,
+                  :customer_id,
+                  :merchant_id,
+                  :status,
+                  :created_at,
+                  :updated_at
 
     def self.make_invoices(testing=false)
       invoice_file = "./data/invoices.csv"
