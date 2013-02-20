@@ -139,4 +139,43 @@ class InvoiceItem
     #   end
     # end
   end
+
+  def self.new_invoice_item_id
+    last_invoice_item = @list_of_invoice_items[-1]
+    last_invoice_item_id = last_invoice_item.id
+    new_invoice_item_id = last_invoice_item_id.to_i + 1
+    new_invoice_item_id.to_s
+  end
+
+  def self.current_time
+    time = Time.now.utc
+    time.to_s
+  end
+
+  def self.collect_invoice_items(item_array)
+    item_hash = Hash.new(0)
+    item_array.each do |item|
+      item_hash[item] += 1
+    end
+    item_hash.to_a
+  end
+
+  def self.add_invoice_items(item_collection, invoice_id)
+    invoice_items = []
+    item_collection.each do |array_of_item_and_quantity|
+      invoice_item = {
+        :id => new_invoice_item_id,
+        :item_id => array_of_item_and_quantity[0].id,
+        :invoice_id => invoice_id,
+        :quantity => array_of_item_and_quantity[1].to_s,
+        :unit_price => array_of_item_and_quantity[0].unit_price,
+        :created_at => current_time,
+        :updated_at => current_time
+      }
+      new_invoice_item = InvoiceItem.new(invoice_item)
+      invoice_items << new_invoice_item
+      @list_of_invoice_items << new_invoice_item
+    end
+    invoice_items
+  end
 end

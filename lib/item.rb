@@ -160,17 +160,16 @@ class Item
   end
 
   def best_day
-    item_instances = InvoiceItem.find_all_by_item_id(@id)
+    invoice_item_instances = InvoiceItem.find_all_by_item_id(@id)
 
     item_sales = Hash.new(0)
-    item_instances.each do |invoice_item|
+    invoice_item_instances.each do |invoice_item|
       invoice_id = invoice_item.invoice_id
       invoice = Invoice.find_by_id(invoice_id)
       invoice_date = Date.parse(invoice.created_at)
-      item_sales[invoice_date.to_s] += invoice_item.quantity.to_i
+      item_sales[invoice_date] += invoice_item.quantity.to_i
     end
-    best_day = item_sales.max_by { |date,value| value }[0]
-    best_day = Date.parse(best_day)
+    item_sales.max_by { |date,value| value }[0]
   end
 
   # Initialize

@@ -198,20 +198,16 @@ class InvoiceTest < MiniTest::Unit::TestCase
     customer = invoice.customer
     assert_equal "15", customer.id
   end
+
+  def test_create_takes_a_hash_of_data_and_makes_new_objects
+    Invoice.make_invoices
+    Customer.make_customers
+    Merchant.make_merchants
+    customer = Customer.find_by_id("5")
+    merchant = Merchant.find_by_id("5")
+    item1 = Item.find_by_id("6")
+    item2 = Item.find_by_id("7")
+    item3 = Item.find_by_id("6")
+    invoice = Invoice.create(customer: customer, merchant: merchant, status: "shipped", items: [item1, item2, item3])
+  end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
