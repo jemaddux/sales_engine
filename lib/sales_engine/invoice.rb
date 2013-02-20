@@ -132,7 +132,7 @@ module SalesEngine
     def self.add_invoice(input)
       invoice_data = {
         :id => new_invoice_id,
-        :customer_id => input[:customer].id,
+        :customer_id => input[:customer].id.to_i,
         :merchant_id => input[:merchant].id,
         :status => input[:status],
         :created_at => current_time,

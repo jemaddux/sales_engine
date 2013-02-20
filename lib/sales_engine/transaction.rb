@@ -138,7 +138,8 @@ module SalesEngine
         :created_at => current_time,
         :updated_at => current_time
       }
-      Transaction.new(transaction_data).inspect
+      new_transaction = Transaction.new(transaction_data)
+      @list_of_transactions << new_transaction
     end
 
     # Initialize

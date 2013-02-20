@@ -10,7 +10,7 @@ module SalesEngine
     end
 
     def find_all_by(attribute, match)
-      data.select{|instance| instance.send(attribute) == match}
+      data.select{|instance| instance.send(attribute) == match.to_s}
     end
 
   end
