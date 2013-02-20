@@ -19,31 +19,13 @@ module SalesEngine
   		assert_operator file_contents.size, :>= , 5
   	end
 
-  	def test_customer_has_id
-  		customer = Customer.new({id: 4})
-  		assert_equal 4, customer.id
-  	end
-
   	def test_customer_has_first_name
-  		customer = Customer.new({first_name: "Jimmy"})
+      time_obj = Date.now
+  		customer = Customer.new({first_name: "Jimmy", last_name: "Wales", created_at: time_obj, updated_at: time_obj})
   		assert_equal "Jimmy", customer.first_name
-  	end
-
-  	def test_customer_has_last_name
-  		customer = Customer.new({:last_name => "Wales"})
-  		assert_equal "Wales", customer.last_name
-  	end
-
-  	def test_customer_has_created_at_time
-  		time_obj = Time.now
-  		customer = Customer.new({created_at: time_obj})
-  		assert_equal time_obj, customer.created_at
-  	end
-
-  	def test_customer_has_upadated_at_time
-  		time_obj = Time.now
-  		customer = Customer.new({updated_at: time_obj})
-  		assert_equal time_obj, customer.updated_at
+      assert_equal "Wales", customer.last_name
+      assert_equal time_obj, customer.created_at
+      assert_equal time_obj, customer.updated_at
   	end
 
   	def test_can_create_an_array_of_customers_from_sample_customers_csv
@@ -142,7 +124,7 @@ module SalesEngine
     def test_customer_find_by_created_at_returns_the_correct_created_at
       Customer.make_customers(true)#true for testing, false by default
       customer = Customer.find_by_created_at("2012-03-27 14:54:09 UTC")
-      assert_equal "2012-03-27 14:54:09 UTC", customer.created_at
+      assert_equal Date.parse("2012-03-27 14:54:09 UTC"), customer.created_at
     end
 
     def test_customer_find_by_updated_at_returns_the_correct_time
@@ -174,7 +156,7 @@ module SalesEngine
     def test_customer_find_all_by_created_at_returns_the_correct_amount
       Customer.make_customers(true)#true for testing, false by default
       customers = Customer.find_all_by_created_at("2012-03-27 14:54:10 UTC")
-      assert_equal 10, customers.count
+      assert_equal 11, customers.count
     end
 
     def test_customer_find_all_by_updated_at_returns_the_correct_time
@@ -192,16 +174,16 @@ module SalesEngine
     def test_invoices_instance_method_returns_correct_information
       Customer.make_customers
       Invoice.make_invoices
-      customer = Customer.find_by_id('11')
+      customer = Customer.find_by_id(11)
       invoices = customer.invoices
-      assert_equal "48", invoices[0].id
+      assert_equal 48, invoices[0].id
     end
 
     def test_transactions_returns_an_array
       Invoice.make_invoices
       Transaction.make_transactions
       Customer.make_customers
-      customer = Customer.find_by_id("3")
+      customer = Customer.find_by_id(3)
       assert_kind_of Array, customer.transactions
     end
 
@@ -209,7 +191,7 @@ module SalesEngine
       Invoice.make_invoices
       Transaction.make_transactions
       Customer.make_customers
-      customer = Customer.find_by_id("2")
+      customer = Customer.find_by_id(2)
       assert_equal 1, customer.transactions.count
     end
 
@@ -218,7 +200,7 @@ module SalesEngine
       Merchant.make_merchants
       Customer.make_customers
       Transaction.make_transactions
-      customer = Customer.find_by_id("2")
+      customer = Customer.find_by_id(2)
       assert_kind_of Merchant, customer.favorite_merchant
     end
 
@@ -227,7 +209,7 @@ module SalesEngine
       Merchant.make_merchants
       Customer.make_customers
       Transaction.make_transactions
-      customer = Customer.find_by_id("2")
+      customer = Customer.find_by_id(2)
       assert_equal "Shields, Hirthe and Smith", customer.favorite_merchant.name
     end
   end

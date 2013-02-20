@@ -165,9 +165,9 @@ module SalesEngine
       invoice_items = []
       item_collection.each do |array_of_item_and_quantity|
         invoice_item = {
-          :id => new_invoice_item_id,
-          :item_id => array_of_item_and_quantity[0].id,
-          :invoice_id => invoice_id,
+          :id => new_invoice_item_id.to_i,
+          :item_id => array_of_item_and_quantity[0].id.to_i,
+          :invoice_id => invoice_id.to_,
           :quantity => array_of_item_and_quantity[1].to_s,
           :unit_price => array_of_item_and_quantity[0].unit_price,
           :created_at => current_time,

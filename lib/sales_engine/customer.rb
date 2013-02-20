@@ -6,7 +6,8 @@ module SalesEngine
     extend GetCSV
     extend Searching
 
-    attr_accessor :first_name, :last_name, :id, :created_at, :updated_at, :invoices
+    attr_accessor :first_name, :last_name, :id, :created_at, :updated_at, 
+    :invoices
 
     def self.make_customers(testing=false)
       customer_file = "./data/customers.csv"
@@ -44,7 +45,7 @@ module SalesEngine
     end
 
     def self.find_by_created_at(match)
-      find_by("created_at", match)
+      find_by("created_at", Date.parse(match))
     end
 
     def self.find_by_updated_at(match)
@@ -69,12 +70,12 @@ module SalesEngine
       find_all_by("id", match)
     end
 
-    def self.find_all_by_created_at(match)
-      find_all_by("created_at", match)
-    end
+    # def self.find_all_by_created_at(match)
+    #   find_all_by("created_at", match)
+    # end
 
     def self.find_all_by_created_at(match)
-      find_all_by("created_at", match)
+      find_all_by("created_at", Date.parse(match))
     end
 
     def self.find_all_by_updated_at(match)

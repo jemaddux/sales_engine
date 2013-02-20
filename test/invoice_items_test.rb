@@ -35,7 +35,7 @@ module SalesEngine
 
     def test_that_we_can_get_a_quantity_from_an_instance
       invoice_item = InvoiceItem.new(:quantity => "5")
-      assert_equal 5, invoice_item.quantity
+      assert_equal "5", invoice_item.quantity
     end
 
     def test_that_we_can_get_a_unit_price_from_an_instance
