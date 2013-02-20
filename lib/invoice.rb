@@ -146,4 +146,9 @@ class Invoice
     invoice_id = @list_of_invoices[-1].id
     InvoiceItem.add_invoice_items(item_collection, invoice_id)
   end
+
+  def charge(input)
+    updated_input = input[:invoice_id] = @id
+    Transaction.add_transaction(updated_input)
+  end
 end

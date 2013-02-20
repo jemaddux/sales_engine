@@ -115,6 +115,33 @@ class Transaction
     Invoice.find_by_id(@invoice_id)
   end
 
+  def self.current_time
+    time = Time.now.utc
+    time.to_s
+  end
+
+  def self.new_transaction_id
+    last_transaction = @list_of_transactions[-1]
+    last_transaction_id = last_transaction.id
+    new_transaction_id = last_transaction_id.to_i + 1
+    new_transaction_id.to_s
+  end
+
+  def self.add_transaction(input)
+    # credit_card_number: "4444333322221111", credit_card_expiration: "10/13", result: "success"
+    # id,invoice_id,credit_card_number,credit_card_expiration_date,result,created_at,updated_at
+    transaction_data = {
+      :id => new_invoice_id, 
+      :invoice_id => input[:invoice_id], 
+      :credit_card_number => input[:credit_card_number], 
+      :credit_card_expiration_date => input[:credit_card_expiration_date], 
+      :result => input[:result], 
+      :created_at => current_time,
+      :updated_at => updated_at
+    }
+    Transaction.new(transaction_data)
+  end
+
   # Initialize
 
   def initialize(input)#takes in a hash
