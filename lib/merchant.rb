@@ -125,7 +125,7 @@ class Merchant
     invoice_ids.each do |i_id|
       invoice_date = Date.parse(Invoice.find_by_id(i_id).created_at)
       if date != invoice_date
-        bad_ids << i_id  
+        bad_ids << i_id
       end
     end
     #If date != Invoice instance.created_at date then
@@ -154,7 +154,7 @@ class Merchant
     bad_ids
   end
 
-  
+
 
   ##########################################################
 

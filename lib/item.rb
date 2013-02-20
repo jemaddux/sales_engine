@@ -6,7 +6,7 @@ class Item
   extend GetCSV
   extend Searching
 
-  attr_accessor :name, :id, :created_at, :updated_at, :description, 
+  attr_accessor :name, :id, :created_at, :updated_at, :description,
     :unit_price, :merchant_id
 
   def self.make_items(testing=false)
@@ -14,8 +14,8 @@ class Item
     if testing
       item_file = "./test/sample/items.csv"
     end
-    
-    csv_array = get_csv(item_file)  
+
+    csv_array = get_csv(item_file)
     @list_of_items = []
     csv_array.each do |item_hash|
       @list_of_items.push(Item.new(item_hash))
@@ -140,7 +140,7 @@ class Item
 
   def self.most_items(count)
     item_quantities = get_item_quantities
-    top_item_quantities = item_quantities.sort_by{ |k,v| -v }[0..(count-1)]#what is this doing
+    top_item_quantities = item_quantities.sort_by{ |k,v| -v }[0..(count-1)]
     top_item_instances = []
     top_item_quantities.each do |item_id, quantity|
       top_item_instances << InvoiceItem.find_by_id(item_id)

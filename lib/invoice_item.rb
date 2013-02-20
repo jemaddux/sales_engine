@@ -7,7 +7,7 @@ class InvoiceItem
   extend Searching
   extend Relationships
 
-  attr_accessor :id, :item_id, :invoice_id, :quantity, :unit_price, 
+  attr_accessor :id, :item_id, :invoice_id, :quantity, :unit_price,
   :created_at, :updated_at, :item, :invoice
 
   def self.make_invoice_items(testing=false)
@@ -15,8 +15,8 @@ class InvoiceItem
     if testing
       invoice_item_file = "./test/sample/invoice_items.csv"
     end
-    
-    csv_array = get_csv(invoice_item_file)  
+
+    csv_array = get_csv(invoice_item_file)
     @list_of_invoice_items = []
     csv_array.each do |invoice_item_hash|
       @list_of_invoice_items.push(InvoiceItem.new(invoice_item_hash))

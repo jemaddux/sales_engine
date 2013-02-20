@@ -5,18 +5,19 @@ require "./lib/invoice_item"
 require './lib/customer'
 
 class Invoice
-	extend GetCSV
+  extend GetCSV
   extend Searching
 
-  attr_accessor :id, :customer_id, :merchant_id, :status, :created_at, :updated_at
+  attr_accessor :id, :customer_id, :merchant_id, :status, :created_at,
+   :updated_at
 
   def self.make_invoices(testing=false)
     invoice_file = "./data/invoices.csv"
     if testing
       invoice_file = "./test/sample/invoices.csv"
     end
-    
-    csv_array = get_csv(invoice_file)  
+
+    csv_array = get_csv(invoice_file)
     @list_of_invoices = []
     csv_array.each do |invoice_hash|
       @list_of_invoices.push(Invoice.new(invoice_hash))
@@ -129,12 +130,12 @@ class Invoice
 
   def self.add_invoice(input)
     invoice_data = {
-      :id => new_invoice_id, 
-      :customer_id => input[:customer].id, 
-      :merchant_id => input[:merchant].id, 
-      :status => input[:status], 
-      :created_at => current_time, 
-      :updated_at => current_time 
+      :id => new_invoice_id,
+      :customer_id => input[:customer].id,
+      :merchant_id => input[:merchant].id,
+      :status => input[:status],
+      :created_at => current_time,
+      :updated_at => current_time
     }
     Invoice.new(invoice_data)
   end

@@ -13,8 +13,8 @@ class Transaction
     if testing
       transaction_file = "./test/sample/transactions.csv"
     end
-    
-    csv_array = get_csv(transaction_file)  
+
+    csv_array = get_csv(transaction_file)
     @list_of_transactions = []
     csv_array.each do |trans_hash|
       @list_of_transactions.push(Transaction.new(trans_hash))
