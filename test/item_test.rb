@@ -240,7 +240,7 @@ module SalesEngine
       Item.make_items
       InvoiceItem.make_invoice_items
       Transaction.make_transactions
-      most_items = Item.most_items(5)
+      most_items = Item.most_items(37)
       assert_kind_of Array, most_items
       assert_equal 5, most_items.count
     end

@@ -20,6 +20,11 @@ module SalesEngine
       csv_array.each do |trans_hash|
         @list_of_transactions.push(Transaction.new(trans_hash))
       end
+      @list_of_transactions.each do |transaction|
+        if transaction.result == "failed"
+          transaction.invoice_id = "XX"
+        end
+      end
     end
 
     def self.list_of_transactions
