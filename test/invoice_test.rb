@@ -204,11 +204,15 @@ class InvoiceTest < MiniTest::Unit::TestCase
     Invoice.make_invoices
     Customer.make_customers
     Merchant.make_merchants
+    Transaction.make_transactions
     customer = Customer.find_by_id("5")
     merchant = Merchant.find_by_id("5")
     item1 = Item.find_by_id("6")
     item2 = Item.find_by_id("7")
     item3 = Item.find_by_id("6")
+
     invoice = Invoice.create(customer: customer, merchant: merchant, status: "shipped", items: [item1, item2, item3])
+
+    invoice.charge(credit_card_number: "4444333322221111", credit_card_expiration: "10/13", result: "success")
   end
 end
