@@ -21,17 +21,18 @@ module SalesEngine
     def test_hash_customers_with_pending_invoices_returns_array_of_customer_instances
       SalesEngine.startup
       merchant = Merchant.list_of_merchants[95]
-      customers = merchant.customers_with_pending_invoices
-      assert_equal Array, customers.class
-      assert_equal Customer, customers[0].class
-      assert_equal "764", customers[0].id
+      customer_list = merchant.customers_with_pending_invoices
+      customer = customer_list[0]
+      assert_equal Array, customer_list.class
+      assert_equal Customer, customer.class
+      assert_equal "764", customer.id
     end
 
     def test_revenue_date_returns_total_revenue_for_date_across_all_merchants
       SalesEngine.startup
       total_rev1 = Merchant.revenue("2012-03-27 14:54:01 UTC")
       total_rev2 = Merchant.revenue("2012-03-28 14:54:01 UTC")
-      assert_equal 190836805.0, total_rev1.to_f
+      assert_equal 1908368.05, total_rev1.to_f
       assert_equal 0, total_rev2.to_f
     end
 
@@ -43,10 +44,10 @@ module SalesEngine
       merchant2 = Merchant.list_of_merchants[42]
       mer2_rev_normal = merchant2.revenue
       mer2_rev = merchant2.revenue("2012-03-27 14:54:01 UTC")
-      assert_equal 933507.0, mer_rev.to_f
-      assert_equal 41312269.0, mer_rev_normal.to_f
-      assert_equal 1901835.0, mer2_rev.to_f
-      assert_equal 58292872.0, mer2_rev_normal.to_f
+      assert_equal 9335.07, mer_rev.to_f
+      assert_equal 413122.69, mer_rev_normal.to_f
+      assert_equal 19018.35, mer2_rev.to_f
+      assert_equal 582928.72, mer2_rev_normal.to_f
     end
 
     def test_merchant_most_revenueX_returns_a_list_of_merchant_instances_sorted_by_revenue
@@ -58,12 +59,12 @@ module SalesEngine
       merchant3 = list[3]
       merchant4 = list[4]
       assert_kind_of Array, list
-      assert_equal 114839374.0, best_merchant.how_much_rev.to_f
+      assert_equal 1148393.74, best_merchant.how_much_rev.to_f
       assert_equal "Dicki-Bednar", best_merchant.name
-      assert_equal 101527515.0, merchant1.how_much_rev.to_f
-      assert_equal 91742486.0, merchant2.how_much_rev.to_f
-      assert_equal 83149384.0, merchant3.how_much_rev.to_f
-      assert_equal 82959718.0, merchant4.how_much_rev.to_f
+      assert_equal 1015275.15, merchant1.how_much_rev.to_f
+      assert_equal 917424.86, merchant2.how_much_rev.to_f
+      assert_equal 831493.84, merchant3.how_much_rev.to_f
+      assert_equal 829597.18, merchant4.how_much_rev.to_f
     end
 
     def test_that_remove_bad_transactions_works
@@ -138,9 +139,9 @@ module SalesEngine
       merchant = Merchant.list_of_merchants[23]
       mer = Merchant.list_of_merchants[3]
       merch = Merchant.list_of_merchants[73]
-      assert_equal BigDecimal('41312269.00'), merchant.revenue
-      assert_equal 55805522.0, mer.revenue.to_f
-      assert_equal 47447308.0, merch.revenue.to_f
+      assert_equal BigDecimal('413122.69'), merchant.revenue
+      assert_equal 558055.22, mer.revenue.to_f
+      assert_equal 474473.08, merch.revenue.to_f
     end
 
     # def test_that_merchant_hash_revenue_returns_a_big_decimal

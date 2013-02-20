@@ -94,7 +94,7 @@ module SalesEngine
       merch_list.sort! do |a, b|
         a.num_items <=> b.num_items
       end
-      merch_list.reverse!
+      #merch_list.reverse!
       return merch_list[0..(x-1)]
     end
 
@@ -115,8 +115,6 @@ module SalesEngine
       mer_invoice_items.each do |invo_item|
          rev_total += invo_item.quantity.to_i * invo_item.unit_price.to_f
        end
-       #rev_length = rev_total.to_s.length
-       #rev_return = rev_total.to_s[0..(rev_length-5)] + rev_total.to_s[(rev_length-4)..(rev_length-1)]
       return BigDecimal((rev_total/100.0).to_s)
     end
 
@@ -125,16 +123,12 @@ module SalesEngine
         date = Date.parse(date)
       end
       bad_ids = []
-      #Invoices have a :created_at date
-      #Find and return an Invoice instance for each invoice_id
       invoice_ids.each do |i_id|
         invoice_date = Date.parse(Invoice.find_by_id(i_id).created_at)
         if date != invoice_date
           bad_ids << i_id
         end
       end
-      #If date != Invoice instance.created_at date then
-      # bad_ids << invoice_id
       return invoice_ids - bad_ids
     end
 
