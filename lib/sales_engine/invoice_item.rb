@@ -167,7 +167,7 @@ module SalesEngine
         invoice_item = {
           :id => new_invoice_item_id.to_i,
           :item_id => array_of_item_and_quantity[0].id.to_i,
-          :invoice_id => invoice_id.to_,
+          :invoice_id => invoice_id.to_i,
           :quantity => array_of_item_and_quantity[1].to_s,
           :unit_price => array_of_item_and_quantity[0].unit_price,
           :created_at => current_time,
