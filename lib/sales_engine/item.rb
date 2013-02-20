@@ -136,8 +136,9 @@ module SalesEngine
       top_item_revenues = item_revenues.sort_by{ |k,v| -v }[0..(count-1)]
       top_item_instances = []
       top_item_revenues.each do |item_id, revenue|
-        top_item_instances << InvoiceItem.find_by_id(item_id)
+        top_item_instances << Item.find_by_id(item_id)
       end
+      top_item_instances
     end
 
     # Add to invoiceitems.rb?
