@@ -115,11 +115,15 @@ module SalesEngine
       mer_invoice_items.each do |invo_item|
          rev_total += invo_item.quantity.to_i * invo_item.unit_price.to_f
        end
-      return BigDecimal("#{rev_total}")
+       #rev_length = rev_total.to_s.length
+       #rev_return = rev_total.to_s[0..(rev_length-5)] + rev_total.to_s[(rev_length-4)..(rev_length-1)]
+      return BigDecimal((rev_total/100.0).to_s)
     end
 
     def remove_dates(invoice_ids, merchant_id, date)
-      date = Date.parse(date)
+      if date.class != Date
+        date = Date.parse(date)
+      end
       bad_ids = []
       #Invoices have a :created_at date
       #Find and return an Invoice instance for each invoice_id
