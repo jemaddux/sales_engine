@@ -157,9 +157,7 @@ module SalesEngine
       top_item_quantities.each do |item_id, quantity|
         top_item_instances << Item.find_by_id(item_id)
       end
-      top_item_instances.each do |instance|
-        puts instance.name
-      end
+      top_item_instances
     end
 
     def invoice_items

@@ -33,12 +33,6 @@ module SalesEngine
       list_of_invoices
     end
 
-    def self.find_all_paid_invoices
-      @list_of_invoices.select do |invoice|
-        invoice.transactions.any? {|transactions| transactions.result == "success"}
-      end
-    end
-
     # Find By
 
     def self.find_by_id(match)
