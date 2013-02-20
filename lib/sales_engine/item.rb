@@ -21,10 +21,20 @@ module SalesEngine
       csv_array.each do |item_hash|
         @list_of_items.push(Item.new(item_hash))
       end
+      convert_prices
     end
 
     def self.list_of_items
       return @list_of_items
+    end
+
+    def self.convert_prices
+      @list_of_items.each do |item|
+        if item.unit_price
+          price = (item.unit_price.to_f)/100
+          item.unit_price = BigDecimal(price.to_s)
+        end
+      end
     end
 
     def self.data
@@ -144,8 +154,9 @@ module SalesEngine
       top_item_quantities = item_quantities.sort_by{ |k,v| -v }[0..(count-1)]
       top_item_instances = []
       top_item_quantities.each do |item_id, quantity|
-        top_item_instances << InvoiceItem.find_by_id(item_id)
+        top_item_instances << Item.find_by_id(item_id)
       end
+      top_item_instances
     end
 
     def invoice_items
