@@ -87,7 +87,7 @@ module SalesEngine
 
     # Invoices returns a collection of Invoice instances associated with this object
     def invoices
-      Invoice.find_all_by_customer_id(@id)
+      invoice = Invoice.find_all_by_customer_id(@id)
     end
 
     def transactions
@@ -129,7 +129,7 @@ module SalesEngine
     # Initialize
 
     def initialize(input)#takes in a hash
-      @id = input[:id]
+      @id = input[:id].to_i
       @first_name = input[:first_name]
       @last_name = input[:last_name]
       @created_at = input[:created_at]
