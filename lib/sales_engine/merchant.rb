@@ -89,23 +89,19 @@ module SalesEngine
         puts "#{merch.name} #{merch.num_items}"
         #puts merch.items
       end
-      return merch_list[0..(x-1)]
+      return merch_list[0..(x-2)]
     end
 
     def merchant_items_sold
       items_sold = 0
       invoices = Invoice.find_all_by_merchant_id(self.id)
       invoice_items = []
-      temp_array = []
       invoices.each do |invoice|
-        temp_array << InvoiceItem.find_all_by_invoice_id(invoice.id)
-        temp_array.each do |temp|
-          invoice_items << temp
-        end
-        temp_array = []
+        invoice_items << InvoiceItem.find_all_by_invoice_id(invoice.id)
       end
-      invoice_items.each do |iItem|
-        items_sold += iItem.quantity
+      invoice_items = invoice_items.flatten
+      invoice_items.each do |i_item|
+        items_sold += i_item.quantity.to_i
       end
       return items_sold
     end
