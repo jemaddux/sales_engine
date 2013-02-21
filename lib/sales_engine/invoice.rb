@@ -117,6 +117,10 @@ module SalesEngine
       some_array
     end
 
+    def invoice_items
+      InvoiceItem.find_all_by_invoice_id(@id)
+    end
+
     def customer
       Customer.find_by_id(@customer_id)
     end
@@ -124,6 +128,14 @@ module SalesEngine
     def self.current_time
       time = Time.now.utc
       time.to_s
+    end
+
+    def self.find_all_paid_invoices
+      @list_of_invoices.select do |invoice|
+        invoice.transactions.any? {
+          |transactions| transactions.result == "success"
+        }
+      end
     end
 
     def self.new_invoice_id

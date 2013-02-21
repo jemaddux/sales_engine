@@ -145,21 +145,27 @@ module SalesEngine
     end
 
     def self.get_item_quantities
+      paid_invoice_items = []
+      Invoice.find_all_paid_invoices.each do |paid_invoice|
+        paid_invoice.invoice_items.each do |invoice_item|
+          paid_invoice_items << invoice_item
+        end
+      end
       item_quantities = Hash.new(0)
-      InvoiceItem.data.each do |invoice_item|
+      paid_invoice_items.each do |invoice_item|
         item_quantities[invoice_item.item_id] += invoice_item.quantity.to_i
       end
       item_quantities
     end
 
     def self.most_items(count)
-      # remove bad invoices?
       item_quantities = get_item_quantities
       top_item_quantities = item_quantities.sort_by{ |k,v| -v }[0..(count-1)]
       top_item_instances = []
       top_item_quantities.each do |item_id, quantity|
         top_item_instances << Item.find_by_id(item_id)
       end
+      top_item_instances
     end
 
     def invoice_items
