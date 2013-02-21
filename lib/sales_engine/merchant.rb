@@ -34,21 +34,10 @@ module SalesEngine
     end
 
     def customers_with_pending_invoices
-      self.invoice_ids = merchant_invoices(self.id)
-      bad_transaction_ids = bad_transactions(self.invoice_ids, self.id)
-      bad_transactions = []
-      bad_transaction_ids.each do |transaction_id|
-        bad_transactions << Transaction.find_by_id(transaction_id)
+      pending_invoices = invoices.select{|invoice| invoice.pending? }
+      pending_invoices.map do |invoice|
+        Customer.find_by_id(invoice.customer_id)
       end
-      bad_customer_ids = []
-      bad_customers = []
-      bad_transactions.each do |transaction|
-        bad_customer_ids << Invoice.find_by_id(transaction.invoice_id).customer_id
-      end
-      bad_customer_ids.each do |id|
-        bad_customers << Customer.find_by_id(id)
-      end
-      return bad_customers
     end
 
     def self.revenue(date)
@@ -85,10 +74,7 @@ module SalesEngine
         a.num_items <=> b.num_items
       end
       merch_list.reverse!
-      merch_list.each do |merch|
-        puts "#{merch.name} #{merch.num_items}"
-        #puts merch.items
-      end
+    
       return merch_list[0..(x-2)]
     end
 

@@ -170,5 +170,13 @@ module SalesEngine
       input[:invoice_id] = @id
       Transaction.add_transaction(input)
     end
+
+    def paid?
+      transactions.any? {|transaction| transaction.result == "success"}
+    end
+
+    def pending?
+      !paid?
+    end
   end
 end
