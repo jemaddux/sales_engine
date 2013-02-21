@@ -132,7 +132,9 @@ module SalesEngine
 
     def self.find_all_paid_invoices
       @list_of_invoices.select do |invoice|
-        invoice.transactions.any? {|transactions| transactions.result == "success"}
+        invoice.transactions.any? {
+          |transactions| transactions.result == "success"
+        }
       end
     end
 
