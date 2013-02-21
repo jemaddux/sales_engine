@@ -33,13 +33,6 @@ module SalesEngine
       return best_customer = Customer.find_by_id(best_customer_id)
     end
 
-    # def bad_invoices(invoice_ids, merchant_id)
-    #   bad_invoices_array = []
-    #   bad_ids = []
-    #   bad_ids = bad_transactions(invoice_ids, merchant_id) #=> [] of bad ids
-
-    # end
-
     def customers_with_pending_invoices
       self.invoice_ids = merchant_invoices(self.id)
       bad_transaction_ids = bad_transactions(self.invoice_ids, self.id)
@@ -50,11 +43,9 @@ module SalesEngine
       bad_customer_ids = []
       bad_customers = []
       bad_transactions.each do |transaction|
-        #find bad invoice ids and <<
         bad_customer_ids << Invoice.find_by_id(transaction.invoice_id).customer_id
       end
       bad_customer_ids.each do |id|
-        #find bad customers and << into bad_customers
         bad_customers << Customer.find_by_id(id)
       end
       return bad_customers
@@ -67,7 +58,6 @@ module SalesEngine
         total_rev += merchant.revenue(date)
       end
       return total_rev
-      #for each merchant call merchant.revenue(date)
     end
 
     def self.add_rev(date="all")
@@ -89,13 +79,35 @@ module SalesEngine
     def self.most_items(x)
       merch_list = self.data
       merch_list.each do |merchant|
-        merchant.num_items = merchant.items.size
+        merchant.num_items = merchant.merchant_items_sold
       end
       merch_list.sort! do |a, b|
         a.num_items <=> b.num_items
       end
       merch_list.reverse!
+      merch_list.each do |merch|
+        puts "#{merch.name} #{merch.num_items}"
+        #puts merch.items
+      end
       return merch_list[0..(x-1)]
+    end
+
+    def merchant_items_sold
+      items_sold = 0
+      invoices = Invoice.find_all_by_merchant_id(self.id)
+      invoice_items = []
+      temp_array = []
+      invoices.each do |invoice|
+        temp_array << InvoiceItem.find_all_by_invoice_id(invoice.id)
+        temp_array.each do |temp|
+          invoice_items << temp
+        end
+        temp_array = []
+      end
+      invoice_items.each do |iItem|
+        items_sold += iItem.quantity
+      end
+      return items_sold
     end
 
     def revenue(date="all")
@@ -152,8 +164,6 @@ module SalesEngine
       end
       bad_ids
     end
-
-
 
     ##########################################################
 
@@ -246,7 +256,7 @@ module SalesEngine
 
     def self.add_relationships
       @list_of_merchants.each do |merchant|
-        merchant.items = get_items(merchant.id)
+        merchant.items = Item.find_all_by_merchant_id(merchant.id)
       end
     end
 

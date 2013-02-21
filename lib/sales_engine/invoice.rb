@@ -40,7 +40,7 @@ module SalesEngine
     # Find By
 
     def self.find_by_id(match)
-      find_by("id", match)
+      find_by("id", match.to_i)
     end
 
     def self.find_by_customer_id(match)
