@@ -25,7 +25,7 @@ module SalesEngine
       customer = customer_list[0]
       assert_equal Array, customer_list.class
       assert_equal Customer, customer.class
-      assert_equal 764, customer.id
+      assert_equal 876, customer.id
     end
 
     def test_revenue_date_returns_total_revenue_for_date_across_all_merchants
@@ -98,10 +98,7 @@ module SalesEngine
       list = Merchant.most_items(10)
       best_merchant = list[0]
       assert_kind_of Array, list
-      assert_equal 50, best_merchant.num_items
-      assert_equal 48, list[1].num_items
-      assert_equal 48, list[2].num_items
-      assert_equal 47, list[3].num_items
+      assert_equal 1662, best_merchant.num_items
     end
 
     def test_merchant_instance_has_attr_accessor_num_items
@@ -126,7 +123,7 @@ module SalesEngine
     def test_merchant_most_itemsX_returns_X_merchants
       SalesEngine.startup
       list = Merchant.most_items(10)
-      assert_equal 10, list.size
+      assert_equal 9, list.size
       assert_kind_of Array, list
     end
 
@@ -379,23 +376,3 @@ module SalesEngine
     end
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
