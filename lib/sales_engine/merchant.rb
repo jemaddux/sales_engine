@@ -106,33 +106,33 @@ module SalesEngine
     end
 
     def revenue(date="all")
-      self.invoice_ids = merchant_invoices(self.id)
-      idz_stuff()
-      rev_total = 0.0
-      rev_helper(invoice_ids)
-      mer_invoice_items.each do |invo_item|
-         rev_total += invo_item.quantity.to_i * invo_item.unit_price.to_f
-       end
-      return BigDecimal((rev_total/100.0).to_s)
-    end
-
-    def idz_stuff()
-      idz = self.invoice_ids
-      self.invoice_ids = self.invoice_ids - bad_transactions(idz, self.id)
-      if date != "all"
-        self.invoice_ids = remove_dates(self.invoice_ids, self.id, date)
-      end
-    end
-
-    def rev_helper(invoice_ids)
-      mer_invoice_items = [] ###make empty array of invoiceItems
+      self.invoice_ids = invoice_idzs(date)
+      mer_invoice_items = []
       self.invoice_ids.each do |id|
         temp_invoice_items = InvoiceItem.find_all_by_invoice_id(id)
         temp_invoice_items.each do |invoice_item|
           mer_invoice_items << invoice_item
         end
       end
-      return mer_invoice_items
+      return bigD(mer_invoice_items)
+    end
+
+    def bigD(mer_invoice_items)
+      rev_total = 0.0
+      mer_invoice_items.each do |invo_item|
+         rev_total += invo_item.quantity.to_i * invo_item.unit_price.to_f
+       end
+       bigD = BigDecimal((rev_total/100.0).to_s)
+    end
+
+    def invoice_idzs(date)
+      self.invoice_ids = merchant_invoices(self.id)
+      idz = self.invoice_ids
+      self.invoice_ids = self.invoice_ids - bad_transactions(idz, self.id)
+      if date != "all"
+        self.invoice_ids = remove_dates(self.invoice_ids, self.id, date)
+      end
+      self.invoice_ids
     end
 
     def remove_dates(invoice_ids, merchant_id, date)
