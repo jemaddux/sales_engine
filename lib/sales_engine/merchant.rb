@@ -14,23 +14,37 @@ module SalesEngine
                   :how_much_rev, :invoice_ids
 
     def favorite_customer
-      invoices = Invoice.find_all_by_merchant_id(self.id)
-      invoice_ids = []
-      invoices.each do |invoice|
-        invoice_ids << invoice.id
+      invoice_ids = fav_cust_help(self.id)
+      good_invoices = good_ids(invoice_ids)
+      gci = []
+      good_invoices.each do |invoice|
+        gci << Customer.find_by_id(invoice.customer_id).id
       end
+
+      return gci_stuff(gci)
+    end
+
+    def gci_stuff(gci)
+      bci = gci.group_by{|i| i}.max{|x,y| x[1].length <=> y[1].length}[0]
+      best_customer = Customer.find_by_id(bci)
+    end
+
+    def good_ids(invoice_ids)
       good_invoice_ids = invoice_ids - bad_transactions(invoice_ids, self.id)
       good_invoices = []
       good_invoice_ids.each do |id|
         good_invoices << Invoice.find_by_id(id)
       end
-      good_customer_ids = []
-      good_invoices.each do |invoice|
-        good_customer_ids << Customer.find_by_id(invoice.customer_id).id
-      end
-      best_customer_id = good_customer_ids.group_by{|i| i}.max{|x,y| x[1].length <=> y[1].length}[0]
+      good_invoices
+    end
 
-      return best_customer = Customer.find_by_id(best_customer_id)
+    def fav_cust_help(mer_id)
+      invoices = Invoice.find_all_by_merchant_id(mer_id)
+      invoice_ids = []
+      invoices.each do |invoice|
+        invoice_ids << invoice.id
+      end
+      invoice_ids
     end
 
     def customers_with_pending_invoices
@@ -74,7 +88,6 @@ module SalesEngine
         a.num_items <=> b.num_items
       end
       merch_list.reverse!
-    
       return merch_list[0..(x-2)]
     end
 
@@ -94,11 +107,24 @@ module SalesEngine
 
     def revenue(date="all")
       self.invoice_ids = merchant_invoices(self.id)
-      self.invoice_ids = self.invoice_ids - bad_transactions(self.invoice_ids, self.id)
+      idz_stuff()
+      rev_total = 0.0
+      rev_helper(invoice_ids)
+      mer_invoice_items.each do |invo_item|
+         rev_total += invo_item.quantity.to_i * invo_item.unit_price.to_f
+       end
+      return BigDecimal((rev_total/100.0).to_s)
+    end
+
+    def idz_stuff()
+      idz = self.invoice_ids
+      self.invoice_ids = self.invoice_ids - bad_transactions(idz, self.id)
       if date != "all"
         self.invoice_ids = remove_dates(self.invoice_ids, self.id, date)
       end
-      rev_total = 0.0
+    end
+
+    def rev_helper(invoice_ids)
       mer_invoice_items = [] ###make empty array of invoiceItems
       self.invoice_ids.each do |id|
         temp_invoice_items = InvoiceItem.find_all_by_invoice_id(id)
@@ -106,10 +132,7 @@ module SalesEngine
           mer_invoice_items << invoice_item
         end
       end
-      mer_invoice_items.each do |invo_item|
-         rev_total += invo_item.quantity.to_i * invo_item.unit_price.to_f
-       end
-      return BigDecimal((rev_total/100.0).to_s)
+      return mer_invoice_items
     end
 
     def remove_dates(invoice_ids, merchant_id, date)
