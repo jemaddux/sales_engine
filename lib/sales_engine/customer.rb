@@ -6,15 +6,18 @@ module SalesEngine
     extend GetCSV
     extend Searching
 
-    attr_accessor :first_name, :last_name, :id, :created_at, :updated_at, 
-    :invoices
+    attr_accessor :first_name,
+                  :last_name,
+                  :id,
+                  :created_at,
+                  :updated_at,
+                  :invoices
 
     def self.make_customers(testing=false)
       customer_file = "./data/customers.csv"
       if testing
         customer_file = "./test/sample/customers.csv"
       end
-
       csv_array = get_csv(customer_file)
       @list_of_customers = []
       csv_array.each do |cust_hash|
@@ -86,7 +89,6 @@ module SalesEngine
       find_all_by("invoices", match)
     end
 
-    # Invoices returns a collection of Invoice instances associated with this object
     def invoices
       invoice = Invoice.find_all_by_customer_id(@id)
     end
@@ -126,8 +128,6 @@ module SalesEngine
       end
 
     end
-
-    # Initialize
 
     def initialize(input)#takes in a hash
       @id = input[:id].to_i

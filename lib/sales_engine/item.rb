@@ -7,8 +7,13 @@ module SalesEngine
     extend GetCSV
     extend Searching
 
-    attr_accessor :name, :id, :created_at, :updated_at, :description,
-      :unit_price, :merchant_id
+    attr_accessor :name,
+                  :id,
+                  :created_at,
+                  :updated_at,
+                  :description,
+                  :unit_price,
+                  :merchant_id
 
     def self.make_items(testing=false)
       item_file = "./data/items.csv"
@@ -117,7 +122,6 @@ module SalesEngine
       find_all_by("merchant", match)
     end
 
-    # Add to invoiceitems.rb?
     def self.get_item_revenues
       item_revenues = Hash.new(0)
       InvoiceItem.data.each do |invoice_item|
@@ -126,7 +130,6 @@ module SalesEngine
         unit_price_dollars = (unit_price_cents / BigDecimal('100'))
         revenue = (quantity * unit_price_dollars)
         item_revenues[invoice_item.item_id] += revenue
-        # To-do: Format in dollars & cents to 2 decimal places
       end
       item_revenues
     end
@@ -141,7 +144,6 @@ module SalesEngine
       top_item_instances
     end
 
-    # Add to invoiceitems.rb?
     def self.get_item_quantities
       item_quantities = Hash.new(0)
       InvoiceItem.data.each do |invoice_item|
@@ -151,13 +153,13 @@ module SalesEngine
     end
 
     def self.most_items(count)
+      # remove bad invoices?
       item_quantities = get_item_quantities
       top_item_quantities = item_quantities.sort_by{ |k,v| -v }[0..(count-1)]
       top_item_instances = []
       top_item_quantities.each do |item_id, quantity|
         top_item_instances << Item.find_by_id(item_id)
       end
-      top_item_instances
     end
 
     def invoice_items
